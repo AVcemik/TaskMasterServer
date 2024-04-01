@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskMasterServer", "TaskMasterServer\TaskMasterServer.csproj", "{4B501B0E-69BC-48BB-B730-60E24C04C5D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskMasterServer", "TaskMasterServer\TaskMasterServer.csproj", "{4B501B0E-69BC-48BB-B730-60E24C04C5D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "taskMasterClientTest", "taskMasterClientTest\taskMasterClientTest.csproj", "{DAA7BB79-247C-4AD4-AE46-A45F40C3A4FD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{4B501B0E-69BC-48BB-B730-60E24C04C5D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B501B0E-69BC-48BB-B730-60E24C04C5D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B501B0E-69BC-48BB-B730-60E24C04C5D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAA7BB79-247C-4AD4-AE46-A45F40C3A4FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAA7BB79-247C-4AD4-AE46-A45F40C3A4FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAA7BB79-247C-4AD4-AE46-A45F40C3A4FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAA7BB79-247C-4AD4-AE46-A45F40C3A4FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
