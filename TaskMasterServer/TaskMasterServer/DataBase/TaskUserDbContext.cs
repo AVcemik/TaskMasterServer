@@ -27,7 +27,7 @@ public partial class TaskUserDbContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseNpgsql("Server=127.0.0.1; Port=6432; Database=TaskUser_db; User Id=cemik; Password=22464427ceM;");
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseNpgsql("Server=127.0.0.1; Port=6465; Database=TaskUser_db; User Id=cemik; Password=22464427ceM;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -14,6 +14,7 @@ using (TaskUserDbContext dbContext = new TaskUserDbContext())
 }
 
 string local = "http://127.0.0.1:8888/GetTask/";
+string LAN = "http://192.168.10.72:8888/GetTask/";
 
 HttpListener server = new HttpListener();
 server.Prefixes.Add(local);
@@ -33,7 +34,7 @@ while (true)
         csvData = writer.ToString();
     }
 
-    byte[] buffer = System.Text.Encoding.Unicode.GetBytes(csvData);
+    byte[] buffer = System.Text.Encoding.UTF8.GetBytes(csvData);
     response.ContentLength64 = buffer.Length;
     Stream output = response.OutputStream;
     output.Write(buffer, 0, buffer.Length);
