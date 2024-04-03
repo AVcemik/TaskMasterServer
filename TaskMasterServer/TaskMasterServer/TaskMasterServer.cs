@@ -13,11 +13,12 @@ using (TaskUserDbContext dbContext = new TaskUserDbContext())
     tempBD = dbContext.Tasks.ToList();
 }
 
-string local = "http://127.0.0.1:8888/GetTask/";
-string LAN = "http://192.168.10.72:8888/GetTask/";
+string local = "http://127.0.0.1:8080/GetTask/";
+string C1NB8 = "http://192.168.10.106:8080/1/";
 
 HttpListener server = new HttpListener();
-server.Prefixes.Add(local);
+//server.Prefixes.Add(C1NB8);
+server.Prefixes.Add($"http://*:{8080}/");
 server.Start();
 Console.WriteLine("Сервер запущен");
 
