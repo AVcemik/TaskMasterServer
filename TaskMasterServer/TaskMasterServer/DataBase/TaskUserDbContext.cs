@@ -1,9 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace TaskMasterServer.DataBase;
 
 public partial class TaskUserDbContext : DbContext
 {
+    private readonly string _cifraYandex = "Server=127.0.0.1; Port=6465; Database=TaskUser_db; User Id=cemik; Password=22464427ceM;";
+    private readonly string _home = "Server=127.0.0.1; Port=6432; Database=TaskUser_db; User Id=cemik; Password=22464427ceM;";
+
     public TaskUserDbContext()
     {
     }
@@ -14,6 +19,8 @@ public partial class TaskUserDbContext : DbContext
     }
 
     public virtual DbSet<Attachment> Attachments { get; set; }
+
+    public virtual DbSet<Authorization> Authorizations { get; set; }
 
     public virtual DbSet<Comment> Comments { get; set; }
 
@@ -27,7 +34,7 @@ public partial class TaskUserDbContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseNpgsql("Server=127.0.0.1; Port=6465; Database=TaskUser_db; User Id=cemik; Password=22464427ceM;");
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseNpgsql(_home);
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -41,6 +48,28 @@ public partial class TaskUserDbContext : DbContext
 
             entity.Property(e => e.AttachmentId).HasColumnName("attachment_id");
             entity.Property(e => e.AttachmentPath).HasColumnName("attachment_path");
+        });
+
+        modelBuilder.Entity<Authorization>(entity =>
+        {
+            entity.HasKey(e => e.UserId).HasName("authorization_pkey");
+
+            entity.ToTable("authorization", "TaskUser");
+
+            entity.HasIndex(e => e.Token, "authorization_token_key").IsUnique();
+
+            entity.Property(e => e.UserId)
+                .ValueGeneratedOnAdd()
+                .HasColumnName("user_id");
+            entity.Property(e => e.Isauthorization).HasColumnName("isauthorization");
+            entity.Property(e => e.Token)
+                .HasMaxLength(64)
+                .HasColumnName("token");
+
+            entity.HasOne(d => d.User).WithOne(p => p.Authorization)
+                .HasForeignKey<Authorization>(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("authorization_user_id_fkey");
         });
 
         modelBuilder.Entity<Comment>(entity =>
@@ -108,6 +137,7 @@ public partial class TaskUserDbContext : DbContext
             entity.Property(e => e.AttachmentId).HasColumnName("attachment_id");
             entity.Property(e => e.DateCreate).HasColumnName("date_create");
             entity.Property(e => e.Deadline).HasColumnName("deadline");
+            entity.Property(e => e.DepartmentId).HasColumnName("department_id");
             entity.Property(e => e.Description)
                 .HasMaxLength(255)
                 .HasColumnName("description");
@@ -116,11 +146,14 @@ public partial class TaskUserDbContext : DbContext
             entity.Property(e => e.TaskName)
                 .HasMaxLength(32)
                 .HasColumnName("task_name");
-            entity.Property(e => e.UserId).HasColumnName("user_id");
 
             entity.HasOne(d => d.Attachment).WithMany(p => p.Tasks)
                 .HasForeignKey(d => d.AttachmentId)
                 .HasConstraintName("task_attachment_id_fkey");
+
+            entity.HasOne(d => d.Department).WithMany(p => p.Tasks)
+                .HasForeignKey(d => d.DepartmentId)
+                .HasConstraintName("task_department_id_fkey");
 
             entity.HasOne(d => d.Priority).WithMany(p => p.Tasks)
                 .HasForeignKey(d => d.PriorityId)
@@ -129,10 +162,6 @@ public partial class TaskUserDbContext : DbContext
             entity.HasOne(d => d.Status).WithMany(p => p.Tasks)
                 .HasForeignKey(d => d.StatusId)
                 .HasConstraintName("task_status_id_fkey");
-
-            entity.HasOne(d => d.User).WithMany(p => p.Tasks)
-                .HasForeignKey(d => d.UserId)
-                .HasConstraintName("task_user_id_fkey");
         });
 
         modelBuilder.Entity<User>(entity =>

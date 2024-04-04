@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace TaskMasterServer.DataBase;
+﻿namespace TaskMasterServer.DataBase;
 
 public partial class User
 {
@@ -19,7 +16,7 @@ public partial class User
 
     public bool? Isresponsible { get; set; }
 
-    public virtual Department? Department { get; set; }
+    public virtual Authorization? Authorization { get; set; }
 
-    public virtual ICollection<Task> Tasks { get; set; } = new List<Task>();
+    public virtual Department? Department { get; set; }
 }

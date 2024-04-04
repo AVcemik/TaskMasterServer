@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace TaskMasterServer.DataBase;
+﻿namespace TaskMasterServer.DataBase;
 
 public partial class Comment
 {

@@ -2,36 +2,42 @@
 using CsvHelper.Configuration;
 using System.Globalization;
 using System.Net;
+using System.Web;
 using TaskMasterServer.DataBase;
 using TaskBD = TaskMasterServer.DataBase.Task;
 
-
-List<TaskBD> tempBD = new();
+List<TaskBD> tempTask = new();
+List<User> tempUser = new();
+List<Department> tempDepartment = new();
 
 using (TaskUserDbContext dbContext = new TaskUserDbContext())
 {
-    tempBD = dbContext.Tasks.ToList();
+    tempTask = dbContext.Tasks!.ToList();
+    tempUser = dbContext.Users!.ToList();
+    tempDepartment = dbContext.Departments!.ToList();
 }
 
-string local = "http://127.0.0.1:8080/GetTask/";
-string C1NB8 = "http://192.168.10.106:8080/1/";
-
 HttpListener server = new HttpListener();
-//server.Prefixes.Add(C1NB8);
-server.Prefixes.Add($"http://*:{8080}/");
+server.Prefixes.Add($"http://*:{8888}/");
 server.Start();
 Console.WriteLine("Сервер запущен");
 
 while (true)
 {
     HttpListenerContext context = await server.GetContextAsync();
+    HttpListenerRequest request = context.Request;
     HttpListenerResponse response = context.Response;
+
+    var query = HttpUtility.ParseQueryString(request.Url.Query);
+    var userId = query["userId"];
+
+    var userTask = tempUser.Where(t => t.UserId == int.Parse(userId!)).ToList();
 
     string csvData;
     using StringWriter writer = new StringWriter();
     using (CsvWriter csvWriter = new CsvWriter(writer, new CsvConfiguration(CultureInfo.InvariantCulture)))
     {
-        csvWriter.WriteRecords(tempBD);
+        csvWriter.WriteRecords(userTask);
         csvData = writer.ToString();
     }
 
@@ -40,28 +46,9 @@ while (true)
     Stream output = response.OutputStream;
     output.Write(buffer, 0, buffer.Length);
     output.Close();
+    Console.WriteLine($"{request.Url} - Обработан");
 }
 
 
-//using (TaskUserDbContext contex = new TaskUserDbContext())
-//{
-//    tempBD = contex.Tasks.ToList();
-//}
-
-//var csvContext = new CsvContext(new CsvConfiguration(CultureInfo.InvariantCulture));
-
-
-//var request = context.Request;
-//var user = context.User;
-
-//byte[] buffer = Encoding.UTF8.GetBytes();
-//response.ContentLength64 = buffer.Length;
-//using Stream output = response.OutputStream;
-
-//await output.WriteAsync(buffer);
-//await output.FlushAsync();
-
-//Console.WriteLine("Запрос обработан");
-
-//server.Stop();
-//server.Close();
+server.Stop();
+server.Close();
