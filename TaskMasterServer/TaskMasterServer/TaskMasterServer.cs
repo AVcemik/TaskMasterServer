@@ -20,6 +20,7 @@ using (TaskUserDbContext dbContext = new TaskUserDbContext())
 
 HttpListener server = new HttpListener();
 server.Prefixes.Add($"http://*:{8080}/");
+server.Prefixes.Add($"http://+:{8080}/");
 server.Start();
 Console.WriteLine("Сервер запущен");
 
@@ -29,30 +30,29 @@ while (true)
     HttpListenerRequest request = context.Request;
     HttpListenerResponse response = context.Response;
 
-    var header = HttpUtility.ParseQueryString(request.Headers.ToString()!);
     var query = HttpUtility.ParseQueryString(request.Url!.Query);
     string? result = null;
     
-    if (header.ToString() == "task")
+   if (query["response"] == "task")
     {
         User user = new();
-        var userId = query["userId"];
         foreach (var item in tempUser)
         {
-            if (item.UserId == int.Parse(userId))
+            if (item.UserId == int.Parse(query["userId"]))
             {
                 user = item;
             }
         }
-        //var department = tempUser.Where(u => u.Department == int.Parse(tempDepartment));
         var token = query["token"];
-        var userTask = tempTask.Where(t => t.DepartmentId == int.Parse(user.DepartmentId.ToString()!));
+        var userTask = tempTask.Where(t => t.DepartmentId == int.Parse(user.DepartmentId.ToString()!)).ToList();
+
+        
 
         string csvdata;
         using StringWriter writer = new StringWriter();
         using (CsvWriter csvwriter = new CsvWriter(writer, new CsvConfiguration(CultureInfo.InvariantCulture)))
         {
-            csvwriter.WriteRecord(result);
+            csvwriter.WriteRecords(userTask);
             csvdata = writer.ToString();
         }
 
@@ -63,17 +63,12 @@ while (true)
         output.Close();
         Console.WriteLine($"{request.Url} - обработан");
     }
-    else if (header.ToString() == "authorization")
+    else if (query["response"] == "authorization")
     {
         var login = query["login"];
         var password = query["password"];
     }
-    Console.WriteLine("Запрос обработан");
-
-
-    //var usertask = tempUser.Where(t => t.userid == int.parse(userid!)).tolist();
-
-    
+    Console.WriteLine("Запрос обработан");    
 }
 
 

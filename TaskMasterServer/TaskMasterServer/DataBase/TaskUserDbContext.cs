@@ -18,21 +18,21 @@ public partial class TaskUserDbContext : DbContext
     {
     }
 
-    public virtual DbSet<Attachment> Attachments { get; set; }
+    public virtual DbSet<Attachment>? Attachments { get; set; }
 
-    public virtual DbSet<Authorization> Authorizations { get; set; }
+    public virtual DbSet<Authorization>? Authorizations { get; set; }
 
-    public virtual DbSet<Comment> Comments { get; set; }
+    public virtual DbSet<Comment>? Comments { get; set; }
 
-    public virtual DbSet<Department> Departments { get; set; }
+    public virtual DbSet<Department>? Departments { get; set; }
 
-    public virtual DbSet<Priority> Priorities { get; set; }
+    public virtual DbSet<Priority>? Priorities { get; set; }
 
-    public virtual DbSet<Status> Statuses { get; set; }
+    public virtual DbSet<Status>? Statuses { get; set; }
 
-    public virtual DbSet<Task> Tasks { get; set; }
+    public virtual DbSet<Task>? Tasks { get; set; }
 
-    public virtual DbSet<User> Users { get; set; }
+    public virtual DbSet<User>? Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseNpgsql(_cifraYandex);
 
