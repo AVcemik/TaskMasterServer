@@ -16,4 +16,9 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.22" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Service\Csv\" />
+    <Folder Include="Service\Json\" />
+  </ItemGroup>
+
 </Project>

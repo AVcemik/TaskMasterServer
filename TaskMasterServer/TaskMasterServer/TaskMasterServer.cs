@@ -30,9 +30,13 @@ while (true)
     HttpListenerRequest request = context.Request;
     HttpListenerResponse response = context.Response;
 
+    Console.WriteLine(request.RawUrl);
+    Console.WriteLine(request.ToString());
+    Console.WriteLine(request.Url);
+
     var query = HttpUtility.ParseQueryString(request.Url!.Query);
     string? result = null;
-    
+    Console.WriteLine("asd");
    if (query["response"] == "task")
     {
         User user = new();
