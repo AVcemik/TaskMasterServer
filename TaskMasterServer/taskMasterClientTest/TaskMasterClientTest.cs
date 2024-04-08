@@ -11,6 +11,7 @@ while (true)
     if (response.IsSuccessStatusCode)
     {
         var content = await response.Content.ReadAsStringAsync();
+        Console.WriteLine("Ваши задачи: ");
         Console.WriteLine(content);
     }
     else
