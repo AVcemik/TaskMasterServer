@@ -44,7 +44,7 @@ namespace TaskMasterServer.Service.HTTP
                 User user = new();
                 foreach (var item in DataBd.ReadUser())
                 {
-                    if (item.UserId == int.Parse(query["userId"]))
+                    if (item.UserId == int.Parse(query["userId"]!))
                     {
                         user = item;
                     }
@@ -56,7 +56,7 @@ namespace TaskMasterServer.Service.HTTP
                 List<TaskUser> userTask = new List<TaskUser>();
                 foreach (var item in userTaskBd)
                 {
-                    userTask.Add(new TaskUser(item.TaskId, item.TaskName, item.Description, item.DateCreate, item.Deadline, item.Status.StatusType, item.Priority.PriorityType));
+                    userTask.Add(new TaskUser(item.TaskId, item.TaskName, item.Description, item.DateCreate, item.Deadline, item.Status!.StatusType, item.Priority!.PriorityType));
                 }
 
                 string csvData = ICsvString.CsvReadString(userTask);
