@@ -39,32 +39,45 @@ namespace TaskMasterServer.Service.HTTP
 
             var query = HttpUtility.ParseQueryString(request.Url!.Query);
 
-            if (query["response"] == "ListTask".ToLower())
+            if (query["response"] == "Auth".ToLower())
             {
-                User user = new();
+                DataBase.User userBD = new();
                 foreach (var item in DataBd.ReadUser())
                 {
-                    if (item.UserId == int.Parse(query["userId"]!))
+                    if (item.Login == query["login"])
                     {
-                        user = item;
+                        userBD = item;
                     }
                 }
+                if (userBD.Password != query["pass"])
+                {
+
+                }
                 var token = query["token"];
-                List<DataBase.Task> userTaskBd = DataBd.ReadTask().Where(t => t.DepartmentId == int.Parse(user.DepartmentId.ToString()!)).ToList();
+                List<DataBase.Task> userTaskBd = DataBd.ReadTask().Where(t => t.DepartmentId == int.Parse(userBD.DepartmentId.ToString()!)).ToList();
 
                 //Создать отдельный класс
+                
                 List<TaskUser> userTask = new List<TaskUser>();
                 foreach (var item in userTaskBd)
                 {
                     userTask.Add(new TaskUser(item.TaskId, item.TaskName, item.Description, item.DateCreate, item.Deadline, item.Status!.StatusType, item.Priority!.PriorityType));
                 }
+                List<Data.User> users = new List<Data.User>();
+                users.Add(new Data.User(userBD.UserId, userBD.UserName, userBD.UserName, userBD.Login, userBD.Password, userBD.Department.DepartmentName));
 
-                string csvData = ICsvString.CsvReadString(userTask);
+                var csvData = ICsvString.CsvReadString(userTask, users);
 
                 byte[] buffer = System.Text.Encoding.UTF8.GetBytes(csvData);
                 response.ContentLength64 = buffer.Length;
                 Stream output = response.OutputStream;
                 output.Write(buffer, 0, buffer.Length);
+
+                foreach (var item in buffer)
+                {
+                    Console.Write(item);
+                }
+
                 output.Close();
                 Console.WriteLine($"{request.Url} - Обработан");
             }

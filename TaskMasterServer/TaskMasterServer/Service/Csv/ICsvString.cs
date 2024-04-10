@@ -9,15 +9,23 @@ namespace TaskMasterServer.Service.Csv
 
     internal interface ICsvString
     {
-        public static string CsvReadString(List<TaskUser> taskUser)
+        public static string CsvReadString(List<TaskUser> taskUser, List<Data.User> user)
         {
+            string result = "";
+            using StringWriter writer2 = new StringWriter();
+            using (CsvWriter csvWriter2 = new CsvWriter(writer2, new CsvConfiguration(CultureInfo.InvariantCulture)))
+            {
+                csvWriter2.WriteRecords(user);
+            }
+            result += writer2.ToString();
+            result += "^\n";
             using StringWriter writer = new StringWriter();
             using (CsvWriter csvWriter = new CsvWriter(writer, new CsvConfiguration(CultureInfo.InvariantCulture)))
             {
                 csvWriter.WriteRecords(taskUser);
-
             }
-            return writer.ToString();
+            result += writer.ToString();
+            return result;
                 
         }
     }
