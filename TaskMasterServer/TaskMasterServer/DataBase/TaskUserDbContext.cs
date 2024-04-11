@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace TaskMasterServer.DataBase;
 
@@ -34,7 +32,7 @@ public partial class TaskUserDbContext : DbContext
 
     public virtual DbSet<User>? Users { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseNpgsql(_cifraYandex);
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseNpgsql(_home);
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
