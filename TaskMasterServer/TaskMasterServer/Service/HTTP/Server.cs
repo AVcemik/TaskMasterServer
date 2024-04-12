@@ -27,9 +27,9 @@ namespace TaskMasterServer.Service.HTTP
             Console.WriteLine("Сервер запущен");
         }
 
-        public async void QueryProcessing()
+        public void QueryProcessing()
         {
-            HttpListenerContext context = await server.GetContextAsync();
+            HttpListenerContext context = server.GetContext();
             HttpListenerRequest request = context.Request;
             HttpListenerResponse response = context.Response;
 
