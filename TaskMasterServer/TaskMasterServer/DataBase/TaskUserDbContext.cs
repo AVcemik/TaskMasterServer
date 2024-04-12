@@ -6,6 +6,7 @@ public partial class TaskUserDbContext : DbContext
 {
     private readonly string _cifraYandex = "Server=127.0.0.1; Port=6465; Database=TaskUser_db; User Id=cemik; Password=22464427ceM;";
     private readonly string _home = "Server=127.0.0.1; Port=6432; Database=TaskUser_db; User Id=cemik; Password=22464427ceM;";
+    private readonly string _stringConnection = "Server=176.123.160.24; Port=6432; Database=TaskUser_db; User Id=cemik; Password=22464427ceM;";
 
     public TaskUserDbContext()
     {
@@ -32,7 +33,7 @@ public partial class TaskUserDbContext : DbContext
 
     public virtual DbSet<User>? Users { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseNpgsql(_home);
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseNpgsql(_stringConnection);
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
