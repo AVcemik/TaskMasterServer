@@ -33,7 +33,7 @@ public partial class TaskUserDbContext : DbContext
 
     public virtual DbSet<User>? Users { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseNpgsql(_stringConnection);
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseNpgsql(_cifraYandex);
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

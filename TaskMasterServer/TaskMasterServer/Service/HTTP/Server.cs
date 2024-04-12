@@ -37,7 +37,13 @@ namespace TaskMasterServer.Service.HTTP
             Console.WriteLine(request.ToString());
             Console.WriteLine(request.Url);
 
-            var query = HttpUtility.ParseQueryString(request.Url!.Query);
+            string requestBody;
+            using (StreamReader reader = new StreamReader(request.InputStream, request.ContentEncoding))
+            {
+                requestBody = reader.ReadToEnd();
+            }
+
+                var query = HttpUtility.ParseQueryString(request.Url!.Query);
 
             if (query["response"] == "Auth".ToLower())
             {
@@ -68,7 +74,7 @@ namespace TaskMasterServer.Service.HTTP
 
                 var csvData = ICsvString.CsvReadString(userTask, users);
 
-                byte[] buffer = System.Text.Encoding.UTF8.GetBytes(csvData);
+                byte[] buffer = System.Text.Encoding.Unicode.GetBytes(csvData);
                 response.ContentLength64 = buffer.Length;
                 Stream output = response.OutputStream;
                 output.Write(buffer, 0, buffer.Length);

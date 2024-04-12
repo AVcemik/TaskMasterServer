@@ -25,6 +25,7 @@ namespace TaskMasterServer.Service.Csv
                 csvWriter.WriteRecords(taskUser);
             }
             result += writer.ToString();
+            writer.Close();
             return result;
                 
         }
