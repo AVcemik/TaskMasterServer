@@ -1,7 +1,5 @@
 ﻿using TaskBD = TaskMasterServer.DataBase.Task;
-
-
-namespace TaskMasterServer.DataBase.Service
+namespace TaskMasterServer.DataBase
 {
     public static class DataBd
     {
@@ -14,7 +12,7 @@ namespace TaskMasterServer.DataBase.Service
         private static List<Authorization> _authorizations = new();
         private static List<Comment> _comments = new();
 
-        
+
         public static List<TaskBD> ReadTask()
         {
             return _tasks;
@@ -25,7 +23,7 @@ namespace TaskMasterServer.DataBase.Service
         }
         public static void UpdateTempBD()
         {
-            using (TaskUserDbContext dbContext = new TaskUserDbContext())
+            using (TaskUser_dbContext dbContext = new TaskUser_dbContext())
             {
                 ClearTempBD();
                 _departments = dbContext.Departments!.ToList();

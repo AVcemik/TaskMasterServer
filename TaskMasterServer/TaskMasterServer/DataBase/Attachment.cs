@@ -1,10 +1,15 @@
-﻿namespace TaskMasterServer.DataBase;
-
-public partial class Attachment
+﻿namespace TaskMasterServer.DataBase
 {
-    public int AttachmentId { get; set; }
+    public partial class Attachment
+    {
+        public Attachment()
+        {
+            Tasks = new HashSet<Task>();
+        }
 
-    public string? AttachmentPath { get; set; }
+        public int AttachmentId { get; set; }
+        public string? AttachmentPath { get; set; }
 
-    public virtual ICollection<Task> Tasks { get; set; } = new List<Task>();
+        public virtual ICollection<Task> Tasks { get; set; }
+    }
 }

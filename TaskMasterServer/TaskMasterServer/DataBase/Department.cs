@@ -1,12 +1,17 @@
-﻿namespace TaskMasterServer.DataBase;
-
-public partial class Department
+﻿namespace TaskMasterServer.DataBase
 {
-    public int DepartmentId { get; set; }
+    public partial class Department
+    {
+        public Department()
+        {
+            Tasks = new HashSet<Task>();
+            Users = new HashSet<User>();
+        }
 
-    public string? DepartmentName { get; set; }
+        public int DepartmentId { get; set; }
+        public string? DepartmentName { get; set; }
 
-    public virtual ICollection<Task> Tasks { get; set; } = new List<Task>();
-
-    public virtual ICollection<User> Users { get; set; } = new List<User>();
+        public virtual ICollection<Task> Tasks { get; set; }
+        public virtual ICollection<User> Users { get; set; }
+    }
 }

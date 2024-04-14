@@ -1,12 +1,11 @@
-﻿namespace TaskMasterServer.DataBase;
-
-public partial class Comment
+﻿namespace TaskMasterServer.DataBase
 {
-    public int CimmentId { get; set; }
+    public partial class Comment
+    {
+        public int CimmentId { get; set; }
+        public string? Comment1 { get; set; }
+        public int? TaskId { get; set; }
 
-    public string? Comment1 { get; set; }
-
-    public int? TaskId { get; set; }
-
-    public virtual Task? Task { get; set; }
+        public virtual Task? Task { get; set; }
+    }
 }

@@ -1,10 +1,15 @@
-﻿namespace TaskMasterServer.DataBase;
-
-public partial class Priority
+﻿namespace TaskMasterServer.DataBase
 {
-    public int PriorityId { get; set; }
+    public partial class Priority
+    {
+        public Priority()
+        {
+            Tasks = new HashSet<Task>();
+        }
 
-    public string? PriorityType { get; set; }
+        public int PriorityId { get; set; }
+        public string? PriorityType { get; set; }
 
-    public virtual ICollection<Task> Tasks { get; set; } = new List<Task>();
+        public virtual ICollection<Task> Tasks { get; set; }
+    }
 }

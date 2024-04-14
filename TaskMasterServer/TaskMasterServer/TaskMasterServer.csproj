@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <Folder Include="Service\Json\" />
+    <Folder Include="Service\JSON\" />
   </ItemGroup>
 
 </Project>

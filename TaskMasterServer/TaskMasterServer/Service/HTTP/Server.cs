@@ -1,8 +1,6 @@
 ﻿using System.Net;
-using System.Web;
 using TaskMasterServer.Data;
 using TaskMasterServer.DataBase;
-using TaskMasterServer.DataBase.Service;
 using TaskMasterServer.Service.Csv;
 
 namespace TaskMasterServer.Service.HTTP
@@ -33,44 +31,56 @@ namespace TaskMasterServer.Service.HTTP
             HttpListenerRequest request = context.Request;
             HttpListenerResponse response = context.Response;
 
-            Console.WriteLine(request.RawUrl);
-            Console.WriteLine(request.ToString());
-            Console.WriteLine(request.Url);
+            Console.WriteLine("Request.RawUrl: " + request.RawUrl);
+            Console.WriteLine("Request Headers: " + request.Headers);
+            Console.WriteLine("Request.Url: " + request.Url);
+            Console.WriteLine("Response Headers: " + response.Headers);
 
+
+            Console.WriteLine("Request Headers: " + request.ContentType.Split(';').ToList()[0]);
             string requestBody;
             using (StreamReader reader = new StreamReader(request.InputStream, request.ContentEncoding))
             {
                 requestBody = reader.ReadToEnd();
             }
 
-                var query = HttpUtility.ParseQueryString(request.Url!.Query);
-
-            if (query["response"] == "Auth".ToLower())
+            //var query = HttpUtility.ParseQueryString(request.Url!.Query);
+            string[] auth = requestBody.Split('^');
+            Console.WriteLine("RequestBody:");
+            foreach (var item in auth)
+            {
+                Console.WriteLine(item);
+            }
+            string[] tempKeyValuy = new string[2];
+            tempKeyValuy = auth[0].Split('=');
+            if (request.ContentType.Split(';').ToList()[0] == "application/auth".ToLower())
             {
                 DataBase.User userBD = new();
+                tempKeyValuy = auth[1].Split('=');
                 foreach (var item in DataBd.ReadUser())
                 {
-                    if (item.Login == query["login"])
+                    if (item.Login == tempKeyValuy[1])
                     {
                         userBD = item;
                     }
                 }
-                if (userBD.Password != query["pass"])
+                tempKeyValuy = auth[2].Split('=');
+                if (userBD.Password != tempKeyValuy[1])
                 {
 
                 }
-                var token = query["token"];
+                //var token = query["token"];
                 List<DataBase.Task> userTaskBd = DataBd.ReadTask().Where(t => t.DepartmentId == int.Parse(userBD.DepartmentId.ToString()!)).ToList();
 
                 //Создать отдельный класс
-                
+
                 List<TaskUser> userTask = new List<TaskUser>();
                 foreach (var item in userTaskBd)
                 {
                     userTask.Add(new TaskUser(item.TaskId, item.TaskName, item.Description, item.DateCreate, item.Deadline, item.Status!.StatusType, item.Priority!.PriorityType));
                 }
                 List<Data.User> users = new List<Data.User>();
-                users.Add(new Data.User(userBD.UserId, userBD.UserName, userBD.UserName, userBD.Login, userBD.Password, userBD.Department.DepartmentName));
+                users.Add(new Data.User(userBD.UserId, userBD.Firstname, userBD.Lastname, userBD.Brithday, userBD.Contactphone, userBD.Login, userBD.Password, userBD.Department.DepartmentName, userBD.Isresponsible));
 
                 var csvData = ICsvString.CsvReadString(userTask, users);
 
@@ -78,11 +88,6 @@ namespace TaskMasterServer.Service.HTTP
                 response.ContentLength64 = buffer.Length;
                 Stream output = response.OutputStream;
                 output.Write(buffer, 0, buffer.Length);
-
-                foreach (var item in buffer)
-                {
-                    Console.Write(item);
-                }
 
                 output.Close();
                 Console.WriteLine($"{request.Url} - Обработан");
