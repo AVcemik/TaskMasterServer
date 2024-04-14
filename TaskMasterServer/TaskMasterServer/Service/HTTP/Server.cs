@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Text.Json;
 using TaskMasterServer.Data;
 using TaskMasterServer.DataBase;
 using TaskMasterServer.Service.Csv;
@@ -51,21 +52,21 @@ namespace TaskMasterServer.Service.HTTP
             {
                 Console.WriteLine(item);
             }
-            string[] tempKeyValuy = new string[2];
-            tempKeyValuy = auth[0].Split('=');
+
+
             if (request.ContentType.Split(';').ToList()[0] == "application/auth".ToLower())
             {
+                Data.User user = JsonSerializer.Deserialize<Data.User>(requestBody);
                 DataBase.User userBD = new();
-                tempKeyValuy = auth[1].Split('=');
                 foreach (var item in DataBd.ReadUser())
                 {
-                    if (item.Login == tempKeyValuy[1])
+                    if (item.Login == user.Login)
                     {
                         userBD = item;
                     }
                 }
-                tempKeyValuy = auth[2].Split('=');
-                if (userBD.Password != tempKeyValuy[1])
+
+                if (userBD.Password != user.Password)
                 {
 
                 }
