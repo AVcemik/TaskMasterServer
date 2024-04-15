@@ -7,7 +7,7 @@ string message = JsonSerializer.Serialize<User>(user);
 using (HttpClient client = new HttpClient())
 {
     HttpContent content = new StringContent(message, Encoding.UTF8, "application/auth");
-    HttpResponseMessage response = await client.PostAsync("http://localhost:8080", content);
+    HttpResponseMessage response = await client.PostAsync("http://176.123.160.24:8080", content);
 
     if (response.IsSuccessStatusCode)
     {

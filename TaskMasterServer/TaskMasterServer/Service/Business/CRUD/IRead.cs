@@ -9,9 +9,9 @@ namespace TaskMasterServer.Service.Business.CRUD
         //{
             
         //}
-        public UserData ReadUser() 
-        {
+        //public UserData ReadUser() 
+        //{
 
-        }
+        //}
     }
 }

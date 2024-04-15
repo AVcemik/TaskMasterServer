@@ -28,11 +28,13 @@ namespace TaskMasterServer.Service.HTTP
             HttpListenerContext context = _server.GetContext();
             HttpListenerRequest request = context.Request;
             HttpListenerResponse response = context.Response;
+            _count++;
 
             Console.WriteLine("Request.RawUrl: " + request.RawUrl);
             Console.WriteLine("Request Headers: " + request.Headers);
             Console.WriteLine("Request.Url: " + request.Url);
             Console.WriteLine("Response Headers: " + response.Headers);
+            Console.WriteLine("UserHostAdress" + request.UserHostAddress);
 
 
             Console.WriteLine("Request Headers: " + request.ContentType.Split(';').ToList()[0]);
@@ -64,12 +66,13 @@ namespace TaskMasterServer.Service.HTTP
 
                 if (userBD.Password != user.Password)
                 {
+                    user = null;
+                }
+                else
+                {
 
                 }
-                //var token = query["token"];
                 List<DataBase.Task> userTaskBd = DataBd.ReadTask().Where(t => t.DepartmentId == int.Parse(userBD.DepartmentId.ToString()!)).ToList();
-
-                //Создать отдельный класс
 
                 List<TaskData> userTask = new List<TaskData>();
                 foreach (var item in userTaskBd)
