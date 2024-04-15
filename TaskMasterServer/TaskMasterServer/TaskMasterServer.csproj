@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Service\Business\CRUD\Base\" />
     <Folder Include="Service\Json\" />
     <Folder Include="Service\JSON\" />
   </ItemGroup>

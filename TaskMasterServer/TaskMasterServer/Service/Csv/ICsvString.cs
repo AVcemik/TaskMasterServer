@@ -9,7 +9,7 @@ namespace TaskMasterServer.Service.Csv
 
     internal interface ICsvString
     {
-        public static string CsvReadString(List<TaskUser> taskUser, List<Data.User> user)
+        public static string CsvReadString(List<TaskData> taskUser, List<Data.UserData> user)
         {
             string result = "";
             using StringWriter writer2 = new StringWriter();

@@ -1,6 +1,6 @@
 ﻿namespace TaskMasterServer.Data
 {
-    public class TaskUser
+    public class TaskData
     {
         public int Id { get; set; }
         public string? Title { get; set; }
@@ -10,7 +10,7 @@
         public string? Status { get; set; }
         public string? Priority { get; set; }
 
-        public TaskUser(int id, string? title, string? description, DateTime? startDate, DateTime? deadLine, string? status, string? priority)
+        public TaskData(int id, string? title, string? description, DateTime? startDate, DateTime? deadLine, string? status, string? priority)
         {
 
 

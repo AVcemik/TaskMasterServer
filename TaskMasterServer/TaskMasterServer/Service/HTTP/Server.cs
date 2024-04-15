@@ -8,27 +8,24 @@ namespace TaskMasterServer.Service.HTTP
 {
     internal class Server
     {
-        private HttpListener server = new HttpListener();
+        private HttpListener _server = new HttpListener();
+        private int _count = 1;
         public Server()
         {
-            server.Prefixes.Add($"http://*:{8080}/");
-            server.Prefixes.Add($"http://+:{8080}/");
-        }
-        public Server(string port)
-        {
-            server.Prefixes.Add($"http://*:{port}/");
-            server.Prefixes.Add($"http://+:{port}/");
+            _server.Prefixes.Add($"http://*:{8080}/");
+            _server.Prefixes.Add($"http://+:{8080}/");
         }
 
         public void Start()
         {
-            server.Start();
+            _server.Start();
             Console.WriteLine("Сервер запущен");
         }
 
         public void QueryProcessing()
         {
-            HttpListenerContext context = server.GetContext();
+            Console.WriteLine($"Ожидание запроса №{_count}");
+            HttpListenerContext context = _server.GetContext();
             HttpListenerRequest request = context.Request;
             HttpListenerResponse response = context.Response;
 
@@ -45,7 +42,6 @@ namespace TaskMasterServer.Service.HTTP
                 requestBody = reader.ReadToEnd();
             }
 
-            //var query = HttpUtility.ParseQueryString(request.Url!.Query);
             string[] auth = requestBody.Split('^');
             Console.WriteLine("RequestBody:");
             foreach (var item in auth)
@@ -56,8 +52,8 @@ namespace TaskMasterServer.Service.HTTP
 
             if (request.ContentType.Split(';').ToList()[0] == "application/auth".ToLower())
             {
-                Data.User user = JsonSerializer.Deserialize<Data.User>(requestBody);
-                DataBase.User userBD = new();
+                UserData user = JsonSerializer.Deserialize<UserData>(requestBody);
+                User userBD = new();
                 foreach (var item in DataBd.ReadUser())
                 {
                     if (item.Login == user.Login)
@@ -75,13 +71,13 @@ namespace TaskMasterServer.Service.HTTP
 
                 //Создать отдельный класс
 
-                List<TaskUser> userTask = new List<TaskUser>();
+                List<TaskData> userTask = new List<TaskData>();
                 foreach (var item in userTaskBd)
                 {
-                    userTask.Add(new TaskUser(item.TaskId, item.TaskName, item.Description, item.DateCreate, item.Deadline, item.Status!.StatusType, item.Priority!.PriorityType));
+                    userTask.Add(new TaskData(item.TaskId, item.TaskName, item.Description, item.DateCreate, item.Deadline, item.Status!.StatusType, item.Priority!.PriorityType));
                 }
-                List<Data.User> users = new List<Data.User>();
-                users.Add(new Data.User(userBD.UserId, userBD.Firstname, userBD.Lastname, userBD.Brithday, userBD.Contactphone, userBD.Login, userBD.Password, userBD.Department.DepartmentName, userBD.Isresponsible));
+                List<Data.UserData> users = new List<Data.UserData>();
+                users.Add(new Data.UserData(userBD.UserId, userBD.Firstname, userBD.Lastname, userBD.Brithday, userBD.Contactphone, userBD.Login, userBD.Password, userBD.Department.DepartmentName, userBD.Isresponsible));
 
                 var csvData = ICsvString.CsvReadString(userTask, users);
 
