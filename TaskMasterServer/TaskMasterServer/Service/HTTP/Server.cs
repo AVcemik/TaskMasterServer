@@ -1,14 +1,14 @@
 ﻿using System.Net;
-using System.Text.Json;
-using TaskMasterServer.Data;
-using TaskMasterServer.DataBase;
 using TaskMasterServer.Service.Csv;
+using TaskMasterServer.Service.JSON;
 
 namespace TaskMasterServer.Service.HTTP
 {
-    internal class Server
+    internal class Server : IRequestInfo, ICheckQuery, IResponseSend
     {
         private HttpListener _server = new HttpListener();
+        private HttpListenerRequest _request;
+        private Data.Data _data = new Data.Data();
         private int _count = 1;
         public Server()
         {
@@ -24,73 +24,31 @@ namespace TaskMasterServer.Service.HTTP
 
         public void QueryProcessing()
         {
-            Console.WriteLine($"Ожидание запроса №{_count}");
-            HttpListenerContext context = _server.GetContext();
-            HttpListenerRequest request = context.Request;
-            HttpListenerResponse response = context.Response;
-            _count++;
-
-            Console.WriteLine("Request.RawUrl: " + request.RawUrl);
-            Console.WriteLine("Request Headers: " + request.Headers);
-            Console.WriteLine("Request.Url: " + request.Url);
-            Console.WriteLine("Response Headers: " + response.Headers);
-            Console.WriteLine("UserHostAdress" + request.UserHostAddress);
-
-
-            Console.WriteLine("Request Headers: " + request.ContentType.Split(';').ToList()[0]);
-            string requestBody;
-            using (StreamReader reader = new StreamReader(request.InputStream, request.ContentEncoding))
+            while (true)
             {
-                requestBody = reader.ReadToEnd();
-            }
+                Console.WriteLine($"Ожидание запроса №{_count}");
+                HttpListenerContext context = _server.GetContext();
+                _count++;
 
-            string[] auth = requestBody.Split('^');
-            Console.WriteLine("RequestBody:");
-            foreach (var item in auth)
-            {
-                Console.WriteLine(item);
-            }
+                if (((ICheckQuery)this).CheckContext(context) == false) continue;
 
+                _request = context.Request;
+                HttpListenerResponse response = context.Response; //???
 
-            if (request.ContentType.Split(';').ToList()[0] == "application/auth".ToLower())
-            {
-                UserData user = JsonSerializer.Deserialize<UserData>(requestBody);
-                User userBD = new();
-                foreach (var item in DataBd.ReadUser())
+                ((IRequestInfo)this).GetRequestInfo(_request);
+                
+
+                switch (_request.ContentType.Split(';').ToList()[0])
                 {
-                    if (item.Login == user.Login)
-                    {
-                        userBD = item;
-                    }
+                    case "application/auth": _data =  Logical.Authorization(JsonReadData.ReadUser(Logical.GetRequestBody(_request)));
+                        break;
                 }
 
-                if (userBD.Password != user.Password)
-                {
-                    user = null;
-                }
-                else
-                {
+                string csvData = ICsvString.CsvReadString(_data);
+                ((IResponseSend)this).Send(csvData, response);
 
-                }
-                List<DataBase.Task> userTaskBd = DataBd.ReadTask().Where(t => t.DepartmentId == int.Parse(userBD.DepartmentId.ToString()!)).ToList();
-
-                List<TaskData> userTask = new List<TaskData>();
-                foreach (var item in userTaskBd)
-                {
-                    userTask.Add(new TaskData(item.TaskId, item.TaskName, item.Description, item.DateCreate, item.Deadline, item.Status!.StatusType, item.Priority!.PriorityType));
-                }
-                List<Data.UserData> users = new List<Data.UserData>();
-                users.Add(new Data.UserData(userBD.UserId, userBD.Firstname, userBD.Lastname, userBD.Brithday, userBD.Contactphone, userBD.Login, userBD.Password, userBD.Department.DepartmentName, userBD.Isresponsible));
-
-                var csvData = ICsvString.CsvReadString(userTask, users);
-
-                byte[] buffer = System.Text.Encoding.Unicode.GetBytes(csvData);
-                response.ContentLength64 = buffer.Length;
-                Stream output = response.OutputStream;
-                output.Write(buffer, 0, buffer.Length);
-
-                output.Close();
-                Console.WriteLine($"{request.Url} - Обработан");
+                Console.WriteLine($"Запрос от {_request.UserHostAddress} обработан");
+            
             }
         }
     }

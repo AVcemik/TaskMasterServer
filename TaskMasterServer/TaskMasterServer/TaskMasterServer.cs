@@ -5,8 +5,4 @@ DataBd.UpdateTempBD();
 
 Server server = new Server();
 server.Start();
-
-while (true)
-{
-    server.QueryProcessing(); 
-}
+server.QueryProcessing(); 

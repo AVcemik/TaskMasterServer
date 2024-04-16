@@ -1,4 +1,6 @@
-﻿namespace TaskMasterServer.Data
+﻿using TaskMasterServer.DataBase;
+
+namespace TaskMasterServer.Data
 {
     public class TaskData
     {
@@ -10,10 +12,9 @@
         public string? Status { get; set; }
         public string? Priority { get; set; }
 
+        public TaskData() { }
         public TaskData(int id, string? title, string? description, DateTime? startDate, DateTime? deadLine, string? status, string? priority)
         {
-
-
             Id = id;
             Title = title;
             Description = description;
@@ -21,6 +22,16 @@
             DeadLine = deadLine;
             Status = status;
             Priority = priority;
+        }
+        public void GetTaskDataConvertTaskBD(DataBase.Task taskBd)
+        {
+            Id = taskBd.TaskId;
+            Title = taskBd.TaskName;
+            Description = taskBd.Description;
+            StartDate = taskBd.DateCreate;
+            DeadLine = taskBd.Deadline;
+            Status = taskBd.Status!.StatusType;
+            Priority = taskBd.Priority!.PriorityType;
         }
     }
 }

@@ -36,5 +36,17 @@
             Department = department;
             IsResponsible = isResponsible;
         }
+        public void GetUserDataConvertUserBD(DataBase.User userBd)
+        {
+            Id = userBd.UserId;
+            FirstName = userBd.Firstname;
+            LastName = userBd.Lastname;
+            Birthday = userBd.Brithday;
+            ContactPhone = userBd.Contactphone;
+            Login = userBd.Login;
+            Password = userBd.Password;
+            Department = userBd.Department!.DepartmentName;
+            IsResponsible = userBd.Isresponsible;
+        }
     }
 }
