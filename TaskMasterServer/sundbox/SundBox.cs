@@ -13,6 +13,7 @@ using (HttpClient client = new HttpClient())
     if (response.IsSuccessStatusCode)
     {
         string responseContent = await response.Content.ReadAsStringAsync();
+        
         Console.WriteLine("Ответ от сервера: " + responseContent);
     }
     else

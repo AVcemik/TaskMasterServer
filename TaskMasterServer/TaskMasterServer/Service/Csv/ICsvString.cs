@@ -1,5 +1,4 @@
 ﻿using CsvHelper.Configuration;
-using CsvHelper;
 using System.Globalization;
 
 namespace TaskMasterServer.Service.Csv
@@ -9,7 +8,7 @@ namespace TaskMasterServer.Service.Csv
 
     internal interface ICsvString
     {
-        public static string CsvReadString(Data data)
+        public static string CsvWriteString(Data data)
         {
             string result = "";
             using StringWriter writer2 = new StringWriter();

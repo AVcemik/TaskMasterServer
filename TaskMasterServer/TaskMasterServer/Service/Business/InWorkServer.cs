@@ -1,6 +1,4 @@
-﻿using System.Net;
-using TaskMasterServer.DataBase;
-using TaskMasterServer.Service.Csv;
+﻿using TaskMasterServer.Service.Csv;
 using TaskMasterServer.Service.HTTP;
 using TaskMasterServer.Service.JSON;
 
@@ -10,7 +8,7 @@ namespace TaskMasterServer.Service.Business
     {
         private Server _server = new Server();
         private int _count = 1;
-        User userDb = new User();
+        private Data.Data?_data;
         public void Start()
         {
             _server.Start();
@@ -22,19 +20,16 @@ namespace TaskMasterServer.Service.Business
                 _server.QueryProcessing();
                 _count++;
 
-
-
                 switch (_server.GetContentType())
                 {
-                    case "application/auth":
-                        _data = Logical.Authorization(JsonReadData.ReadUser(Logical.GetRequestBody(_server.GetRequest() ?? null!)));
+                    case "application/auth": _data = UserQuery.Authorization(JsonReadData.ReadUser(_server.GetRequestBody()));
                         break;
                 }
 
-                string csvData = ICsvString.CsvReadString(_data);
-                ((IResponseSend)this).Send(csvData, response);
+                string csvData = ICsvString.CsvWriteString(_data);
+                _server.Send(csvData, _server.GetResponse()!);
 
-                Console.WriteLine($"Запрос от {_request.UserHostAddress} обработан");
+                Console.WriteLine($"Запрос от {_server.GetRequest()!.UserHostAddress} обработан");
 
             }
         }

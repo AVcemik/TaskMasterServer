@@ -1,7 +1,7 @@
 ﻿using TaskBD = TaskMasterServer.DataBase.Task;
 namespace TaskMasterServer.DataBase
 {
-    public static class DataBd
+    internal static  class DataBd
     {
         private static List<Department> _departments = new();
         private static List<Attachment> _attachments = new();
@@ -20,6 +20,10 @@ namespace TaskMasterServer.DataBase
         public static List<User> ReadUser()
         {
             return _users;
+        }
+        public static List<Department> ReadDepartment()
+        {
+            return _departments;
         }
         public static void UpdateTempBD()
         {

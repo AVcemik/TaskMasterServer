@@ -1,6 +1,9 @@
-﻿namespace TaskMasterServer.Service.Csv
+﻿using TaskMasterServer.Data;
+
+namespace TaskMasterServer.Service.Csv
 {
     internal class CsvService : ICsvString
     {
+        
     }
 }

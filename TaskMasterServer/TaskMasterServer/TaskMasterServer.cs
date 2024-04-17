@@ -4,9 +4,11 @@ using TaskMasterServer.Service.HTTP;
 
 DataBd.UpdateTempBD();
 
-Server server = new Server();
-server.Start();
-server.QueryProcessing(); 
+//Server server = new Server();
+//server.Start();
+//server.QueryProcessing(); 
 
 InWorkServer server = new InWorkServer();
+server.Start();
+server.InWorkProcess();
 
