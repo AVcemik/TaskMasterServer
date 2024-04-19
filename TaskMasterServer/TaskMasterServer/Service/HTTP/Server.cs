@@ -14,9 +14,9 @@ namespace TaskMasterServer.Service.HTTP
         private Data.Data _currentResponseInRequestData = new Data.Data();
         private int _count = 1;
         private bool _prefixServer = true;
-        public Server()
+        public Server(bool prefixServer)
         {
-            _prefixServer = false;
+            _prefixServer = prefixServer;
 
             if (_prefixServer)
             {

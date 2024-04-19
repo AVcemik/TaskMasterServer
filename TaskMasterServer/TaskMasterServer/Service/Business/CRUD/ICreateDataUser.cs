@@ -4,8 +4,8 @@ namespace TaskMasterServer.Service.Business.CRUD
 {
     internal interface ICreateDataUser
     {
-        public void CreateTask(TaskData task);
-        public void CreateUser(UserData user);
-        public void CreateDepartment();
+        public string CreateTask(TaskData task);
+        public string CreateUser(UserData user);
+        public string CreateDepartment();
     }
 }

@@ -6,9 +6,13 @@ namespace TaskMasterServer.Service.Business
 {
     internal class InWorkServer
     {
-        private Server _server = new Server();
+        private Server _server;
         private Data.Data?_data;
         private bool _isWhileContinue = false;
+        public InWorkServer(bool prefixServer)
+        {
+            _server = new Server(prefixServer);
+        }
         public void Start()
         {
             _server.Start();
@@ -34,8 +38,12 @@ namespace TaskMasterServer.Service.Business
                     _server.Send(result, _server.GetResponse()!);
 
                 }
+                else if (_server.GetContentType()!.ToLower() == "Application/TaskUpdate".ToLower())
+                {
 
-                Console.WriteLine($"Запрос от {_server.GetRequest()!.UserHostAddress} обработан");
+                }
+
+                Console.WriteLine($"Клиент: {_server.GetRequest()!.UserHostAddress}\nЗапрос: {_server.GetContentType()!} - Обработан");
 
                 //switch (_server.GetContentType()!.ToLower())
                 //{

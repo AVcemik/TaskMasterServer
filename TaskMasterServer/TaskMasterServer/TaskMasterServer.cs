@@ -1,6 +1,5 @@
 ﻿using TaskMasterServer.DataBase;
 using TaskMasterServer.Service.Business;
-using TaskMasterServer.Service.HTTP;
 
 DataBd.UpdateTempBD();
 
@@ -8,7 +7,7 @@ DataBd.UpdateTempBD();
 //server.Start();
 //server.QueryProcessing(); 
 
-InWorkServer server = new InWorkServer();
+InWorkServer server = new InWorkServer(false);
 server.Start();
 server.InWorkProcess();
 
