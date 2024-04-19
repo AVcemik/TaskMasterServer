@@ -21,5 +21,11 @@ namespace TaskMasterServer.Service.HTTP
                 return new Data.Data();
             }
         }
+        public static string TaskAdd(TaskData task)
+        {
+            Crud crud = new Crud();
+            crud.CreateTask(task);
+            return "Задача добавлена";
+        }
     }
 }

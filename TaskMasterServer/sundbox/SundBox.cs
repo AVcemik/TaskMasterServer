@@ -1,14 +1,24 @@
-﻿using System.Text;
+﻿using sundbox;
+using System.Text;
 using System.Text.Json;
+using Task = sundbox.Task;
 
+string postServer = "http://176.123.160.24:8080";
+string postLocal = "http://localhost:8080";
+
+Console.WriteLine("Нажмите любую клавишу для продолжения начала работы приложения...");
 Console.ReadKey();
+
 User user = new User() { Login = "it1", Password = "password1" };
-string message = JsonSerializer.Serialize<User>(user);
+string messageUser = JsonSerializer.Serialize<User>(user);
+
+Task task = new Task("Новая задача", "Описание", DateTime.Now, DateTime.Now, "Айтишники","Завершена", "Низкий");
+string messageTask = JsonSerializer.Serialize<Task>(task);
+
 using (HttpClient client = new HttpClient())
 {
-    HttpContent content = new StringContent(message, Encoding.UTF8, "application/auth");
-    HttpResponseMessage response = await client.PostAsync("http://176.123.160.24:8080", content);
-    //HttpResponseMessage response = await client.PostAsync("http://localhost:8080", content);
+    HttpContent content = new StringContent(messageUser, Encoding.UTF8, "application/auth");
+    HttpResponseMessage response = await client.PostAsync(postLocal, content);
 
     if (response.IsSuccessStatusCode)
     {
@@ -20,20 +30,20 @@ using (HttpClient client = new HttpClient())
     {
         Console.WriteLine("Ошибка: " + response.StatusCode);
     }
+
+    content = new StringContent(messageTask, Encoding.UTF8, "application/taskadd");
+    response = await client.PostAsync(postLocal, content);
+    if (response.IsSuccessStatusCode)
+    {
+        string responseContent = await response.Content.ReadAsStringAsync();
+
+        Console.WriteLine("Ответ от сервера: " + responseContent);
+    }
+    else
+    {
+        Console.WriteLine("Ошибка: " + response.StatusCode);
+    }
 }
 Console.ReadKey();
 
 
-class User
-{
-    public int Id { get; set; }
-    public string? FirstName { get; set; }
-    public string? LastName { get; set; }
-    public DateTime? Birthday { get; set; }
-    public string? ContactPhone { get; set; }
-    public string? Login { get; set; }
-    public string? Password { get; set; }
-    public string? Department { get; set; }
-    public bool? IsResponsible { get; set; }
-    public User() { }
-}

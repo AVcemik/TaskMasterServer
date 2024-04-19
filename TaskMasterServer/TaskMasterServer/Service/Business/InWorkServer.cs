@@ -7,8 +7,8 @@ namespace TaskMasterServer.Service.Business
     internal class InWorkServer
     {
         private Server _server = new Server();
-        private int _count = 1;
         private Data.Data?_data;
+        private bool _isWhileContinue = false;
         public void Start()
         {
             _server.Start();
@@ -17,19 +17,33 @@ namespace TaskMasterServer.Service.Business
         {
             while (true)
             {
-                _server.QueryProcessing();
-                _count++;
+                _server.QueryProcessing(out _isWhileContinue);
 
-                switch (_server.GetContentType())
+                if (_isWhileContinue) continue;
+
+                if (_server.GetContentType()!.ToLower() == "Application/Auth".ToLower())
                 {
-                    case "application/auth": _data = UserQuery.Authorization(JsonReadData.ReadUser(_server.GetRequestBody()));
-                        break;
+                    _data = UserQuery.Authorization(JsonReadData.ReadUser(_server.GetRequestBody()));
+
+                    string csvData = ICsvString.CsvWriteString(_data);
+                    _server.Send(csvData, _server.GetResponse()!);
+                }
+                else if (_server.GetContentType()!.ToLower() == "Application/TaskAdd".ToLower())
+                {
+                    string result =  UserQuery.TaskAdd(JsonReadData.ReadTask(_server.GetRequestBody()));
+                    _server.Send(result, _server.GetResponse()!);
+
                 }
 
-                string csvData = ICsvString.CsvWriteString(_data);
-                _server.Send(csvData, _server.GetResponse()!);
-
                 Console.WriteLine($"Запрос от {_server.GetRequest()!.UserHostAddress} обработан");
+
+                //switch (_server.GetContentType()!.ToLower())
+                //{
+                //    case "application/auth": _data = UserQuery.Authorization(JsonReadData.ReadUser(_server.GetRequestBody()));
+                //        break;
+                //    case "application/taskadd": UserQuery.TaskAdd(JsonReadData.ReadTask(_server.GetRequestBody()));
+                //        break;
+                //}
 
             }
         }

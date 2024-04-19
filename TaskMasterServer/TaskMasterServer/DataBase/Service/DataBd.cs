@@ -25,6 +25,26 @@ namespace TaskMasterServer.DataBase
         {
             return _departments;
         }
+        public static List<Attachment> ReadAttachment()
+        {
+            return _attachments;
+        }
+        public static List<Priority> ReadPriority()
+        {
+            return _priorities;
+        }
+        public static List<Status> ReadStatuses()
+        {
+            return _statuses;
+        }
+        public static List<Authorization> ReadAuthorization()
+        {
+            return _authorizations;
+        }
+        public static List<Comment> ReadComments()
+        {
+            return _comments;
+        }
         public static void UpdateTempBD()
         {
             using (TaskUser_dbContext dbContext = new TaskUser_dbContext())

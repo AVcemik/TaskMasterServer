@@ -13,10 +13,20 @@ namespace TaskMasterServer.Service.HTTP
         private string? _contentType;
         private Data.Data _currentResponseInRequestData = new Data.Data();
         private int _count = 1;
+        private bool _prefixServer = true;
         public Server()
         {
-            _server.Prefixes.Add($"http://*:{8080}/");
-            _server.Prefixes.Add($"http://+:{8080}/");
+            _prefixServer = false;
+
+            if (_prefixServer)
+            {
+                _server.Prefixes.Add($"http://*:{8080}/");
+                _server.Prefixes.Add($"http://+:{8080}/");
+            }
+            else
+            {
+                _server.Prefixes.Add($"http://localhost:{8080}/");
+            }
         }
 
         public void Start()
@@ -25,7 +35,7 @@ namespace TaskMasterServer.Service.HTTP
             Console.WriteLine("Сервер запущен");
         }
 
-        public void QueryProcessing()
+        public void QueryProcessing(out bool isWhileContinue)
         {
             Console.WriteLine($"Ожидание запроса №{_count}");
             _context = _server.GetContext();
@@ -37,14 +47,12 @@ namespace TaskMasterServer.Service.HTTP
                 _response = _context.Response;
                 SetRequestBody(_request);
                 _contentType = _request.ContentType!.Split(';').FirstOrDefault();
+                isWhileContinue = false;
             }
             else
             {
-                _request = null;
-                _response = null;
-                _requestBody = null;
-                _contentType = null;
-                Console.WriteLine("Неверный запрос");
+                Console.WriteLine("Неверный запрос\n");
+                isWhileContinue=true;
             } 
         }
         public HttpListenerRequest? GetRequest()
