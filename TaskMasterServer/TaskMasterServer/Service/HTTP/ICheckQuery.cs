@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using System.Net.Mime;
 
 namespace TaskMasterServer.Service.HTTP
 {

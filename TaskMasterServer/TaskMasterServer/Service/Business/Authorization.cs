@@ -2,30 +2,23 @@
 using TaskMasterServer.DataBase;
 using TaskMasterServer.Service.Business.CRUD;
 
-namespace TaskMasterServer.Service.HTTP
+namespace TaskMasterServer.Service.Business
 {
-    internal static class UserQuery
+    internal static class Authorization
     {
-        public static Data.Data Authorization(UserData user)
+        public static Data.Data Login(UserData user)
         {
             bool isAuthorization = DataBd.ReadUser().Any(u => u.Login == user.Login && u.Password == user.Password);
 
             if (isAuthorization)
             {
                 user.GetUserDataConvertUserBD(DataBd.ReadUser().Where(u => u.Login == user.Login && u.Password == user.Password).ToList().FirstOrDefault()!);
-                Crud crud = new Crud();
-                return crud.ReadData(user);
+                return ReadData.ReadUserTasks(user);
             }
             else
             {
                 return new Data.Data();
             }
-        }
-        public static string TaskAdd(TaskData task)
-        {
-            Crud crud = new Crud();
-            string result = crud.CreateTask(task);
-            return result;
         }
     }
 }

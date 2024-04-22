@@ -1,4 +1,5 @@
-﻿using TaskMasterServer.Service.Csv;
+﻿using TaskMasterServer.Service.Business.CRUD;
+using TaskMasterServer.Service.Csv;
 using TaskMasterServer.Service.HTTP;
 using TaskMasterServer.Service.JSON;
 
@@ -25,22 +26,31 @@ namespace TaskMasterServer.Service.Business
 
                 if (_isWhileContinue) continue;
 
-                if (_server.GetContentType()!.ToLower() == "Application/Auth".ToLower())
+                //Проверяем что от нас хотят
+                if (_server.GetContentType()!.ToLower() == RequestType.Authorization.ToString().ToLower())
                 {
-                    _data = UserQuery.Authorization(JsonReadData.ReadUser(_server.GetRequestBody()));
+                    _data = Authorization.Login(JsonReadData.ReadUser(_server.GetRequestBody()));
 
                     string csvData = ICsvString.CsvWriteString(_data);
                     _server.Send(csvData, _server.GetResponse()!);
                 }
-                else if (_server.GetContentType()!.ToLower() == "Application/TaskAdd".ToLower())
+                else if (_server.GetContentType()!.ToLower() == RequestType.AddTask.ToString().ToLower())
                 {
-                    string result =  UserQuery.TaskAdd(JsonReadData.ReadTask(_server.GetRequestBody()));
+                    CreateData.CreateTask(JsonReadData.ReadTask(_server.GetRequestBody()));
+                    string result = "Задача успешно создана";
                     _server.Send(result, _server.GetResponse()!);
 
                 }
-                else if (_server.GetContentType()!.ToLower() == "Application/TaskUpdate".ToLower())
+                else if (_server.GetContentType()!.ToLower() == RequestType.AddUser.ToString().ToLower())
                 {
-
+                    var UserdataAndBool = JsonReadData.ReadUserAndIsAdmin(_server.GetRequestBody());
+                    CreateData.CreateUser(UserdataAndBool.Item1, UserdataAndBool.Item2);
+                    string result = "Пользователь успешно добавлен";
+                    _server.Send(result, _server.GetResponse()!);
+                }
+                else if (_server.GetContentType()!.ToLower() == RequestType.AddDepartment.ToString().ToLower())
+                {
+                    CreateData.CreateDepartment(JsonReadData.ReadDepartment(_server.GetRequestBody()));
                 }
 
                 Console.WriteLine($"Клиент: {_server.GetRequest()!.UserHostAddress}\nЗапрос: {_server.GetContentType()!} - Обработан");

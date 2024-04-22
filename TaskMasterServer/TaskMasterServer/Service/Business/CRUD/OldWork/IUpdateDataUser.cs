@@ -1,6 +1,6 @@
 ﻿using TaskMasterServer.Data;
 
-namespace TaskMasterServer.Service.Business.CRUD
+namespace TaskMasterServer.Service.Business.CRUD.OldWork
 {
     internal interface IUpdateDataUser
     {

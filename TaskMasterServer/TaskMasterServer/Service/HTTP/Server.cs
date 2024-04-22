@@ -1,5 +1,17 @@
-﻿using System.Net;
-using TaskMasterServer.Data;
+﻿using System.ComponentModel;
+using System.Net;
+
+enum RequestType
+{
+    [Description("Application/Authorization")]
+    Authorization,
+    [Description("Application/AddUser")]
+    AddUser,
+    [Description("Application/AddTask")]
+    AddTask,
+    [Description("Application/AddDepartment")]
+    AddDepartment
+}
 
 namespace TaskMasterServer.Service.HTTP
 {
@@ -47,6 +59,7 @@ namespace TaskMasterServer.Service.HTTP
                 _response = _context.Response;
                 SetRequestBody(_request);
                 _contentType = _request.ContentType!.Split(';').FirstOrDefault();
+                ((IRequestInfo)this).GetRequestInfo(_request);
                 isWhileContinue = false;
             }
             else

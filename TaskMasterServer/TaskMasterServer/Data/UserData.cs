@@ -9,6 +9,7 @@
         public string? ContactPhone { get; set; }
         public string? Login { get; set; }
         public string? Password { get; set; }
+        public string? Email { get; set; }
         public string? Department { get; set; }
         public bool? IsResponsible { get; set; }
         public UserData()

@@ -17,7 +17,6 @@ namespace TaskMasterServer.Service.HTTP
             Console.WriteLine("----------------------------------------------------------");
             Console.WriteLine("Request ContentType: " + request.ContentType);
             Console.WriteLine("----------------------------------------------------------");
-
         }
     }
 }
