@@ -1,11 +1,17 @@
 ﻿using CsvHelper;
+using CsvHelper.Configuration;
 using sundbox;
+using System.Globalization;
 using System.Text;
 using System.Text.Json;
-using Task = sundbox.Task;
+using Tasks = sundbox.Task;
 
 string postServer = "http://176.123.160.24:8080";
 string postLocal = "http://localhost:8080";
+
+List<User> users = new List<User>();
+List<Tasks> tasks = new List<Tasks>();
+
 
 Console.WriteLine("Нажмите любую клавишу для продолжения начала работы приложения...");
 Console.ReadKey();
@@ -13,30 +19,29 @@ Console.ReadKey();
 HttpContent content;
 HttpResponseMessage response;
 
-
-
 using (HttpClient client = new HttpClient())
 {
-    ReadDataLogin(client);
-    AddTaskData(client);
+    Login(client);
+    DisplayListTasks();
 
-
+    //ReadDataLogin(client);
+    //AddTaskData(client);
 }
 
 Console.WriteLine("Нажмите любую клаавишу для завершения....");
 Console.ReadKey();
 
-async void ReadDataLogin(HttpClient client)
+void ReadDataLogin(HttpClient client)
 {
     User user = new User() { Login = "it1", Password = "1" };
     string messageUser = JsonSerializer.Serialize<User>(user);
 
-    content = new StringContent(messageUser, Encoding.UTF8, "application/auth");
-    response = await client.PostAsync(postLocal, content);
+    content = new StringContent(messageUser, Encoding.UTF8, "Application/Authorization");
+    response = client.PostAsync(postLocal, content).Result;
 
     if (response.IsSuccessStatusCode)
     {
-        string responseContent = await response.Content.ReadAsStringAsync();
+        string responseContent = response.Content.ReadAsStringAsync().Result;
 
         Console.WriteLine("Ответ от сервера: " + responseContent);
     }
@@ -45,37 +50,40 @@ async void ReadDataLogin(HttpClient client)
         Console.WriteLine("Ошибка: " + response.StatusCode);
     }
 }
-async string Login(HttpClient client)
+void Login(HttpClient client)
 {
     User user = new User() { Login = "it1", Password = "1" };
     string messageUser = JsonSerializer.Serialize<User>(user);
 
-    content = new StringContent(messageUser, Encoding.UTF8, "application/taskupdate");
-    response = await client.PostAsync(postLocal, content);
+    content = new StringContent(messageUser, Encoding.UTF8, "Application/Authorization");
+    response = client.PostAsync(postLocal, content).Result;
 
     if (response.IsSuccessStatusCode)
     {
-        string responseContent = await response.Content.ReadAsStringAsync();
+        string responseContent = response.Content.ReadAsStringAsync().Result;
         string[] dataUserTasks = responseContent.Split("^");
 
-        using (StringReader reader = new StringReader(dataUserTasks[1]))
-        using (CsvReader csvReader = new CsvReader(reader, new csvConfi))
-        {
+        CsvConfiguration csvConfig = new CsvConfiguration(CultureInfo.InvariantCulture);
 
+
+        using (StringReader reader = new StringReader(dataUserTasks[1]))
+        using (CsvReader csvReader = new CsvReader(reader, csvConfig))
+        {
+            tasks = csvReader.GetRecords<Tasks>().ToList();
         }
     }
-    else { Console.WriteLine("Ответ от сервера: " + response.StatusCode); }
+    else { Console.WriteLine("Ответ от сервера: " + response.StatusCode); }     
 }
-async void AddTaskData(HttpClient client)
+void AddTaskData(HttpClient client)
 {
-    Task task = new Task("Новая задача", "Описание", DateTime.Now, DateTime.Now, "Айтишники", "Завершена", "Низкий");
-    string messageTask = JsonSerializer.Serialize<Task>(task);
+    Tasks task = new Tasks("Новая задача", "Описание", DateTime.Now, DateTime.Now, "Айтишники", "Завершена", "Низкий");
+    string messageTask = JsonSerializer.Serialize<Tasks>(task);
 
     content = new StringContent(messageTask, Encoding.UTF8, "application/taskadd");
-    response = await client.PostAsync(postLocal, content);
+    response = client.PostAsync(postLocal, content).Result;
     if (response.IsSuccessStatusCode)
     {
-        string responseContent = await response.Content.ReadAsStringAsync();
+        string responseContent = response.Content.ReadAsStringAsync().Result;
 
         Console.WriteLine("Ответ от сервера: " + responseContent);
     }
@@ -84,9 +92,17 @@ async void AddTaskData(HttpClient client)
         Console.WriteLine("Ошибка: " + response.StatusCode);
     }
 }
-async void UpdateTaskData(HttpClient client)
+void UpdateTaskData(HttpClient client)
 {
 
 }
+void DisplayListTasks()
+{
+    foreach (Tasks task in tasks)
+    {
+        Console.WriteLine($"{task.Id} - {task.Title} - {task.Description} - {task.StartDate} - {task.DeadLine} - {task.Department} - {task.Status} - {task.Priority}");
+    }
+}
+
 
 

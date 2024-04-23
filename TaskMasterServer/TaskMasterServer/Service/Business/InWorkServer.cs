@@ -27,7 +27,7 @@ namespace TaskMasterServer.Service.Business
                 if (_isWhileContinue) continue;
 
                 //Проверяем что от нас хотят
-                if (_server.GetContentType()!.ToLower() == RequestType.Authorization.ToString().ToLower())
+                if (_server.GetContentType()!.ToLower() == "Application/Authorization".ToLower())
                 {
                     _data = Authorization.Login(JsonReadData.ReadUser(_server.GetRequestBody()));
 
