@@ -1,6 +1,4 @@
-﻿using TaskMasterServer.DataBase;
-
-namespace TaskMasterServer.Data
+﻿namespace taskMasterClientTest.Data
 {
     public class TaskData
     {
@@ -14,9 +12,8 @@ namespace TaskMasterServer.Data
         public string? Priority { get; set; }
 
         public TaskData() { }
-        public TaskData(int id, string? title, string? description, DateTime? startDate, DateTime? deadLine, string department, string? status, string? priority)
+        public TaskData(string? title, string? description, DateTime? startDate, DateTime? deadLine, string department, string? status, string? priority)
         {
-            Id = id;
             Title = title;
             Description = description;
             StartDate = startDate;
@@ -25,25 +22,14 @@ namespace TaskMasterServer.Data
             Status = status;
             Priority = priority;
         }
-        public TaskData(int id, string? title, string? description, DateTime? startDate, DateTime? deadLine, string? status, string? priority)
+        public TaskData(string? title, string? description, DateTime? startDate, DateTime? deadLine, string? status, string? priority)
         {
-            Id = id;
             Title = title;
             Description = description;
             StartDate = startDate;
             DeadLine = deadLine;
             Status = status;
             Priority = priority;
-        }
-        public void GetTaskDataConvertTaskBD(DataBase.Task taskBd)
-        {
-            Id = taskBd.TaskId;
-            Title = taskBd.TaskName;
-            Description = taskBd.Description;
-            StartDate = taskBd.DateCreate;
-            DeadLine = taskBd.Deadline;
-            Status = taskBd.Status!.StatusType;
-            Priority = taskBd.Priority!.PriorityType;
         }
     }
 }

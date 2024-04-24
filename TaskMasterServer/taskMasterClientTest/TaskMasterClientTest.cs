@@ -1,25 +1,24 @@
-﻿var client = new HttpClient();
-//string id = "2";
-//var response = await client.GetAsync($"http://localhost:8080/task?userId={id}");
+﻿using taskMasterClientTest.Service;
 
-while (true)
+string postServer = "http://176.123.160.24:8080";
+string postLocal = "http://localhost:8080";
+
+
+Console.WriteLine("Нажмите любую клавишу для продолжения начала работы приложения...");
+Console.ReadKey();
+
+using (HttpClient client = new HttpClient())
 {
-    Console.Write("Введите запрос: ");
-    string query = Console.ReadLine()!;
-    var response = await client.GetAsync(query);
-
-    if (response.IsSuccessStatusCode)
-    {
-        var content = await response.Content.ReadAsStringAsync();
-        Console.WriteLine("Ваши задачи: ");
-        Console.WriteLine(content);
-    }
-    else
-    {
-        Console.WriteLine($"Ошибка: {response.StatusCode}");
-    }
-    Console.WriteLine("Нажмите любую клавишу для продолжения...");
-    Console.ReadKey();
-    Console.Clear();
+    User user = new User(postLocal);
+    user.Login(client, "it2", "2");
+    user.Display();
+    //user.CreateTask(client);
+    //user.CreateUser(client);
+    user.CreateDepartment(client);
 }
+
+Console.WriteLine("Нажмите любую клаавишу для завершения....");
+Console.ReadKey();
+
+
 

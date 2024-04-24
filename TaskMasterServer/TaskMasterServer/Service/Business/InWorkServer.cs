@@ -27,30 +27,32 @@ namespace TaskMasterServer.Service.Business
                 if (_isWhileContinue) continue;
 
                 //Проверяем что от нас хотят
-                if (_server.GetContentType()!.ToLower() == "Application/Authorization".ToLower())
+                if (_server.GetContentType()!.ToLower() == RequestType.Authorization.GetDescription().ToLower())
                 {
                     _data = Authorization.Login(JsonReadData.ReadUser(_server.GetRequestBody()));
 
                     string csvData = ICsvString.CsvWriteString(_data);
                     _server.Send(csvData, _server.GetResponse()!);
                 }
-                else if (_server.GetContentType()!.ToLower() == RequestType.AddTask.ToString().ToLower())
+                else if (_server.GetContentType()!.ToLower() == RequestType.AddTask.GetDescription().ToLower())
                 {
                     CreateData.CreateTask(JsonReadData.ReadTask(_server.GetRequestBody()));
                     string result = "Задача успешно создана";
                     _server.Send(result, _server.GetResponse()!);
 
                 }
-                else if (_server.GetContentType()!.ToLower() == RequestType.AddUser.ToString().ToLower())
+                else if (_server.GetContentType()!.ToLower() == RequestType.AddUser.GetDescription().ToLower())
                 {
                     var UserdataAndBool = JsonReadData.ReadUserAndIsAdmin(_server.GetRequestBody());
                     CreateData.CreateUser(UserdataAndBool.Item1, UserdataAndBool.Item2);
                     string result = "Пользователь успешно добавлен";
                     _server.Send(result, _server.GetResponse()!);
                 }
-                else if (_server.GetContentType()!.ToLower() == RequestType.AddDepartment.ToString().ToLower())
+                else if (_server.GetContentType()!.ToLower() == RequestType.AddDepartment.GetDescription().ToLower())
                 {
                     CreateData.CreateDepartment(JsonReadData.ReadDepartment(_server.GetRequestBody()));
+                    string result = "Департамент успешно добавлен";
+                    _server.Send(result, _server.GetResponse()!);
                 }
 
                 Console.WriteLine($"Клиент: {_server.GetRequest()!.UserHostAddress}\nЗапрос: {_server.GetContentType()!} - Обработан");

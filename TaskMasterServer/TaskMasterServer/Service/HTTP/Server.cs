@@ -25,7 +25,7 @@ namespace TaskMasterServer.Service.HTTP
         private string? _contentType;
         private Data.Data _currentResponseInRequestData = new Data.Data();
         private int _count = 1;
-        private bool _prefixServer = false;
+        private bool _prefixServer = true;
         public Server(bool prefixServer)
         {
             _prefixServer = prefixServer;
