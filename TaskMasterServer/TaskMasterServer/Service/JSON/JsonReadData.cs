@@ -7,30 +7,29 @@ namespace TaskMasterServer.Service.JSON
     {
         public static UserData ReadUser(string requestBody)
         {
-            UserData userData = new UserData();
-            userData = JsonSerializer.Deserialize<UserData>(requestBody)!;
+            UserData userData = JsonSerializer.Deserialize<UserData>(requestBody)!;
             return userData;
         }
-        public static (UserData, bool) ReadUserAndIsAdmin(string requestBody)
-        {
-            UserData userData = new UserData();
+        //public static (UserData, bool) ReadUserAndIsAdmin(string requestBody)
+        //{
+        //    UserData userData = new UserData();
 
-            bool checkSplit = false;
-            foreach (char item in requestBody.ToCharArray())
-            {
-                if (item == '^') checkSplit = true;
-            }
+        //    bool checkSplit = false;
+        //    foreach (char item in requestBody.ToCharArray())
+        //    {
+        //        if (item == '^') checkSplit = true;
+        //    }
 
-            if (checkSplit)
-            {
-                userData = JsonSerializer.Deserialize<UserData>(requestBody.Split('^')[0]);
-                bool isAdmin = false;
-                if (requestBody.Split('^')[1].ToLower() == "true") isAdmin = true;
-                return (userData, isAdmin);
-            }
-            else return (userData, false);
+        //    if (checkSplit)
+        //    {
+        //        userData = JsonSerializer.Deserialize<UserData>(requestBody.Split('^')[0]);
+        //        bool isAdmin = false;
+        //        if (requestBody.Split('^')[1].ToLower() == "true") isAdmin = true;
+        //        return (userData, isAdmin);
+        //    }
+        //    else return (userData, false);
 
-        }
+        //}
         public static DepartmentData ReadDepartment(string requestBody)
         {
             DepartmentData department = new DepartmentData();

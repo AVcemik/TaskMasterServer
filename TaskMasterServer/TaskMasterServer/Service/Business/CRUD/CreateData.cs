@@ -32,7 +32,7 @@ namespace TaskMasterServer.Service.Business.CRUD
 
 
         }
-        public static string CreateUser(UserData user, bool isAdmin)
+        public static string CreateUser(UserData user)
         {
             User userBD = new User();
             userBD.Login = user.Login;
@@ -44,7 +44,7 @@ namespace TaskMasterServer.Service.Business.CRUD
             userBD.Contactphone = user.ContactPhone;
             userBD.DepartmentId = DataBd.ReadDepartment()?.Where(d => d.DepartmentName == user.Department)?.FirstOrDefault()?.DepartmentId ?? 0;
             userBD.Isresponsible = false;
-            userBD.Isadmin = isAdmin;
+            userBD.Isadmin = user.IsAdmin;
 
             if (userBD.DepartmentId == 0) return "Неверно указан департамент";
 
