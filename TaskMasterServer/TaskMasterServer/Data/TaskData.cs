@@ -35,7 +35,7 @@ namespace TaskMasterServer.Data
             Status = status;
             Priority = priority;
         }
-        public void GetTaskDataConvertTaskBD(DataBase.Task taskBd)
+        public void SetTaskDataConvertTaskBD(DataBase.Task taskBd)
         {
             Id = taskBd.TaskId;
             Title = taskBd.TaskName;

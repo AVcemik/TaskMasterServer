@@ -6,14 +6,13 @@ namespace TaskMasterServer.Service.Business
 {
     internal static class Authorization
     {
-        public static Data.Data Login(UserData user)
+        public static Data.Data Login(UserData currentUser)
         {
-            bool isAuthorization = DataBd.ReadUser().Any(u => u.Login == user.Login && u.Password == user.Password);
+            UserData tempUser = (UserData)DataBd.ReadData().Users.Where(u => u.Login == currentUser.Login && u.Password == currentUser.Password);
 
-            if (isAuthorization)
+            if (tempUser != null)
             {
-                user.GetUserDataConvertUserBD(DataBd.ReadUser().Where(u => u.Login == user.Login && u.Password == user.Password).ToList().FirstOrDefault()!);
-                return ReadData.ReadUserTasks(user);
+               return ReadData.GetData(tempUser);
             }
             else
             {

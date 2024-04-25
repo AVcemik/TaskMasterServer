@@ -1,4 +1,6 @@
-﻿namespace TaskMasterServer.DataBase
+﻿using TaskMasterServer.Data;
+
+namespace TaskMasterServer.DataBase
 {
     public partial class Priority
     {
@@ -11,5 +13,10 @@
         public string? PriorityType { get; set; }
 
         public virtual ICollection<Task> Tasks { get; set; }
+
+        internal PriorityData ConvertToData()
+        {
+            return new PriorityData(PriorityId, PriorityType);
+        }
     }
 }

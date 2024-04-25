@@ -3,6 +3,7 @@ namespace TaskMasterServer.DataBase
 {
     internal static  class DataBd
     {
+        private static Data.Data _data = new();
         private static List<Department> _departments = new();
         private static List<Attachment> _attachments = new();
         private static List<Priority> _priorities = new();
@@ -13,42 +14,20 @@ namespace TaskMasterServer.DataBase
         private static List<Comment> _comments = new();
 
 
-        public static List<TaskBD> ReadTask()
-        {
-            return _tasks;
-        }
-        public static List<User> ReadUser()
-        {
-            return _users;
-        }
-        public static List<Department> ReadDepartment()
-        {
-            return _departments;
-        }
-        public static List<Attachment> ReadAttachment()
-        {
-            return _attachments;
-        }
-        public static List<Priority> ReadPriority()
-        {
-            return _priorities;
-        }
-        public static List<Status> ReadStatuses()
-        {
-            return _statuses;
-        }
-        public static List<Authorization> ReadAuthorization()
-        {
-            return _authorizations;
-        }
-        public static List<Comment> ReadComments()
-        {
-            return _comments;
-        }
+        public static Data.Data ReadData() { return _data; }
+        public static List<TaskBD> ReadTask() { return _tasks; }
+        public static List<User> ReadUser() { return _users; }
+        public static List<Department> ReadDepartment() { return _departments; }
+        public static List<Attachment> ReadAttachment() { return _attachments; }
+        public static List<Priority> ReadPriority() { return _priorities; }
+        public static List<Status> ReadStatuses() { return _statuses; }
+        public static List<Authorization> ReadAuthorization() { return _authorizations; }
+        public static List<Comment> ReadComments() { return _comments; }
         public static void UpdateTempBD()
         {
             using (TaskUser_dbContext dbContext = new TaskUser_dbContext())
             {
+                ClearData();
                 ClearTempBD();
                 _departments = dbContext.Departments!.ToList();
                 _attachments = dbContext.Attachments!.ToList();
@@ -59,6 +38,32 @@ namespace TaskMasterServer.DataBase
                 _authorizations = dbContext.Authorizations!.ToList();
                 _comments = dbContext.Comments!.ToList();
             }
+
+            ConvertationBdToData();
+        }
+        private static void ConvertationBdToData()
+        {
+            foreach (var item in _users)
+            {
+                _data.Users.Add(item.ConvertToData());
+            }
+            foreach (var item in _tasks)
+            {
+                _data.Tasks.Add(item.ConvertToData());
+            }
+            foreach (var item in _departments)
+            {
+                _data.Departments.Add(item.ConvertToData());
+            }
+            foreach (var item in _statuses)
+            {
+                _data.Statuses.Add(item.ConvertToData());
+            }
+            foreach (var item in _priorities)
+            {
+                _data.Priorities.Add(item.ConvertToData());
+            }
+
         }
         private static void ClearTempBD()
         {
@@ -70,6 +75,14 @@ namespace TaskMasterServer.DataBase
             _tasks.Clear();
             _authorizations.Clear();
             _comments.Clear();
+        }
+        private static void ClearData()
+        {
+            _data.Users.Clear();
+            _data.Tasks.Clear();
+            _data.Departments.Clear();
+            _data.Statuses.Clear();
+            _data.Priorities.Clear();
         }
     }
 }

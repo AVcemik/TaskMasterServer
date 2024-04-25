@@ -10,7 +10,9 @@ enum RequestType
     [Description("Application/AddTask")]
     AddTask,
     [Description("Application/AddDepartment")]
-    AddDepartment
+    AddDepartment,
+    [Description("Application/ReadData")]
+    ReadData
 }
 
 namespace TaskMasterServer.Service.HTTP

@@ -1,4 +1,6 @@
-﻿namespace TaskMasterServer.DataBase
+﻿using TaskMasterServer.Data;
+
+namespace TaskMasterServer.DataBase
 {
     public partial class User
     {
@@ -16,5 +18,10 @@
 
         public virtual Department? Department { get; set; }
         public virtual Authorization? Authorization { get; set; }
+
+        internal UserData ConvertToData()
+        {
+            return new UserData(UserId, Firstname, Lastname, Brithday, Contactphone, Login, Password, Email, Department!.DepartmentName, Isresponsible, Isadmin);
+        }
     }
 }

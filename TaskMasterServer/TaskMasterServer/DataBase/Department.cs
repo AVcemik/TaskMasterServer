@@ -1,4 +1,6 @@
-﻿namespace TaskMasterServer.DataBase
+﻿using TaskMasterServer.Data;
+
+namespace TaskMasterServer.DataBase
 {
     public partial class Department
     {
@@ -13,5 +15,10 @@
 
         public virtual ICollection<Task> Tasks { get; set; }
         public virtual ICollection<User> Users { get; set; }
+
+        internal DepartmentData ConvertToData()
+        {
+            return new DepartmentData(DepartmentId, DepartmentName);
+        }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace TaskMasterServer.DataBase
+﻿using TaskMasterServer.Data;
+
+namespace TaskMasterServer.DataBase
 {
     public partial class Task
     {
@@ -22,5 +24,10 @@
         public virtual Priority? Priority { get; set; }
         public virtual Status? Status { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
+
+        internal TaskData ConvertToData()
+        {
+            return new TaskData(TaskId, TaskName, Description, DateCreate, Deadline, Status!.StatusType, Priority!.PriorityType);
+        }
     }
 }

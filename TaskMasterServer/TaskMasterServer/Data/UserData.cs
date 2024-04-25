@@ -11,21 +11,14 @@
         public string? Password { get; set; }
         public string? Email { get; set; }
         public string? Department { get; set; }
-        public bool? IsResponsible { get; set; }
+        public bool? IsResponsible { get; set; } = false;
+        public bool? IsAdmin { get; set; } = false;
         public UserData()
         {
-            Id = 0;
-            FirstName = null;
-            LastName = null;
-            Birthday = null;
-            ContactPhone = null;
-            Login = null;
-            Password = null;
-            Department = null;
-            IsResponsible = false;
+            
         }
 
-        public UserData(int id, string? firstName, string? lastName, DateTime? birthDay, string? contactPhone, string? login, string? password, string? department, bool? isResponsible)
+        public UserData(int id, string? firstName, string? lastName, DateTime? birthDay, string? contactPhone, string? login, string? password, string? email, string? department, bool? isResponsible, bool? isAdmin)
         {
             Id = id;
             FirstName = firstName;
@@ -34,10 +27,12 @@
             ContactPhone = contactPhone;
             Login = login;
             Password = password;
+            Email = email;
             Department = department;
             IsResponsible = isResponsible;
+            IsAdmin = isAdmin;
         }
-        public void GetUserDataConvertUserBD(DataBase.User userBd)
+        public void SetUserDataConvertUserBD(DataBase.User userBd)
         {
             Id = userBd.UserId;
             FirstName = userBd.Firstname;

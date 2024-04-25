@@ -1,4 +1,6 @@
-﻿namespace TaskMasterServer.DataBase
+﻿using TaskMasterServer.Data;
+
+namespace TaskMasterServer.DataBase
 {
     public partial class Status
     {
@@ -11,5 +13,10 @@
         public string? StatusType { get; set; }
 
         public virtual ICollection<Task> Tasks { get; set; }
+
+        internal StatusData ConvertToData()
+        {
+            return new StatusData(StatusId, StatusType);
+        }
     }
 }

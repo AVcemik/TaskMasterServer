@@ -6,40 +6,23 @@ namespace TaskMasterServer.Service.Business.CRUD
 {
     internal static class ReadData
     {
-        public static Data.Data ReadUserTasks(UserData user)
+        public static Data.Data GetData(UserData currentUser)
         {
-            UserData users = new UserData();
-            TaskData tasks = new TaskData();
-            Data.Data data = new Data.Data();
+            Data.Data currentData = new Data.Data();
+            Data.Data data = DataBd.ReadData();
+            List<TaskData> tasks = new List<TaskData>();
+            List<Department> departments = new List<Department>();
+            List<PriorityData> priorities = new List<PriorityData>();
+            List<StatusData> statuses = new List<StatusData>();
 
-            if (user.Department == "Администратор")
-            {
-                foreach (var item in DataBd.ReadUser())
-                {
-                    users.GetUserDataConvertUserBD(item);
-                    data.AddUser(users);
-                }
-                foreach (var item in DataBd.ReadTask())
-                {
-                    tasks.GetTaskDataConvertTaskBD(item);
-                    data.AddTask(tasks);
-                }
-                return data;
-            }
-            else
-            {
-                data.AddUser(user);
-                List<Task> taskBD = DataBd.ReadTask();
+            currentData.Users.Add(currentUser);
+            currentData.Tasks = data.Tasks.Where(t => t.Department == currentUser.Department).ToList();
+            currentData.Statuses = data.Statuses;
+            currentData.Priorities = data.Priorities;
+            currentData.Departments = data.Departments;
 
-                var temp = DataBd.ReadTask().Where(t => t.Department!.DepartmentName == user.Department).ToList();
-                foreach (var item in temp)
-                {
-                    tasks = new TaskData();
-                    tasks.GetTaskDataConvertTaskBD(item);
-                    data.AddTask(tasks);
-                }
-                return data;
-            }
+
+            return currentData;
         }
     }
 }
