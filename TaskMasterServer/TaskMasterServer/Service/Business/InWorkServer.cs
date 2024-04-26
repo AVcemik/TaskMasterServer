@@ -30,7 +30,7 @@ namespace TaskMasterServer.Service.Business
 
                 if (_isWhileContinue) continue;
 
-                //Запросы
+                // Авторизация
                 if (_server.GetContentType()!.ToLower() == RequestType.Authorization.GetDescription().ToLower())
                 {
                     _data = AuthorizationUser.Login(JsonReadData.ReadUser(_server.GetRequestBody()));
@@ -44,30 +44,81 @@ namespace TaskMasterServer.Service.Business
                     };
                     string result = JsonSerializer.Serialize(_data, options);
                     _server.Send(result, _server.GetResponse()!);
-
-                    //string csvData = ICsvString.CsvWriteString(_data);
-                    //_server.Send(csvData, _server.GetResponse()!);
                 }
+
+                // Добавление задачи
                 else if (_server.GetContentType()!.ToLower() == RequestType.AddTask.GetDescription().ToLower())
                 {
-                    CreateData.CreateTask(JsonReadData.ReadTask(_server.GetRequestBody()));
-                    string result = "Задача успешно создана";
+                    string result = CreateData.CreateTask(JsonReadData.ReadTask(_server.GetRequestBody()));
                     _server.Send(result, _server.GetResponse()!);
 
                 }
+
+                // Добавление пользователя
                 else if (_server.GetContentType()!.ToLower() == RequestType.AddUser.GetDescription().ToLower())
                 {
-                    var userData = JsonReadData.ReadUser(_server.GetRequestBody());
-                    CreateData.CreateUser(userData);
-                    string result = "Пользователь успешно добавлен";
+                    string result = CreateData.CreateUser(JsonReadData.ReadUser(_server.GetRequestBody()));
                     _server.Send(result, _server.GetResponse()!);
                 }
+
+                // Добавление департамента
                 else if (_server.GetContentType()!.ToLower() == RequestType.AddDepartment.GetDescription().ToLower())
                 {
-                    CreateData.CreateDepartment(JsonReadData.ReadDepartment(_server.GetRequestBody()));
-                    string result = "Департамент успешно добавлен";
+                    string result = CreateData.CreateDepartment(JsonReadData.ReadDepartment(_server.GetRequestBody()));
                     _server.Send(result, _server.GetResponse()!);
                 }
+
+                // Добавление Приоритета
+                else if (_server.GetContentType()!.ToLower() == RequestType.AddPrioritet.GetDescription().ToLower())
+                {
+                    string result = CreateData.CreatePrioritet(JsonReadData.ReadPrioritet(_server.GetRequestBody()));
+                    _server.Send(result, _server.GetResponse()!);
+                }
+
+                // Добавление статуса
+                else if (_server.GetContentType()!.ToLower() == RequestType.AddStatus.GetDescription().ToLower())
+                {
+                    string result = CreateData.CreateStatus(JsonReadData.ReadStatus(_server.GetRequestBody()));
+                    _server.Send(result, _server.GetResponse()!);
+                }
+
+                // Обновление задачи
+                else if (_server.GetContentType()!.ToLower() == RequestType.AddTask.GetDescription().ToLower())
+                {
+                    string result = UpdateData.UpdateTask(JsonReadData.ReadTask(_server.GetRequestBody()));
+                    _server.Send(result, _server.GetResponse()!);
+
+                }
+
+                // Обновление пользователя
+                else if (_server.GetContentType()!.ToLower() == RequestType.AddUser.GetDescription().ToLower())
+                {
+                    string result = UpdateData.UpdateUser(JsonReadData.ReadUser(_server.GetRequestBody()));
+                    _server.Send(result, _server.GetResponse()!);
+                }
+
+                // Обновление департамента
+                else if (_server.GetContentType()!.ToLower() == RequestType.AddDepartment.GetDescription().ToLower())
+                {
+                    string result = UpdateData.UpdateDepartment(JsonReadData.ReadDepartment(_server.GetRequestBody()));
+                    _server.Send(result, _server.GetResponse()!);
+                }
+
+                // Обновление Приоритета
+                else if (_server.GetContentType()!.ToLower() == RequestType.AddPrioritet.GetDescription().ToLower())
+                {
+                    string result = UpdateData.UpdatePrioritet(JsonReadData.ReadPrioritet(_server.GetRequestBody()));
+                    _server.Send(result, _server.GetResponse()!);
+                }
+
+                // Обновление статуса
+                else if (_server.GetContentType()!.ToLower() == RequestType.AddStatus.GetDescription().ToLower())
+                {
+                    string result = UpdateData.UpdateStatus(JsonReadData.ReadStatus(_server.GetRequestBody()));
+                    _server.Send(result, _server.GetResponse()!);
+                }
+
+
 
                 Console.WriteLine($"Клиент: {_server.GetRequest()!.UserHostAddress}\nЗапрос: {_server.GetContentType()!} - Обработан");
 

@@ -3,7 +3,7 @@ using TaskMasterServer.Service.Business;
 
 DataBd.UpdateTempBD();
 
-InWorkServer server = new InWorkServer(true);
+InWorkServer server = new InWorkServer(false);
 server.Start();
 server.InWorkProcess();
 

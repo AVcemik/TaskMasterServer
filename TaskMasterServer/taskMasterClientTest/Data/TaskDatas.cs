@@ -31,5 +31,17 @@
             Status = status;
             Priority = priority;
         }
+
+        public TaskDatas(int id, string? title, string? description, DateTime? startDate, DateTime? deadLine, string? department, string? status, string? priority)
+        {
+            Id = id;
+            Title = title;
+            Description = description;
+            StartDate = startDate;
+            DeadLine = deadLine;
+            Department = department;
+            Status = status;
+            Priority = priority;
+        }
     }
 }

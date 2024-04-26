@@ -1,12 +1,8 @@
-﻿using CsvHelper.Configuration;
-using CsvHelper;
-using System.Globalization;
-using System.Text;
+﻿using System.Text;
 using taskMasterClientTest.Data;
 using System.Text.Json;
 using taskMasterClientTest.Service.Enums;
-using System.ComponentModel;
-using static System.Net.Mime.MediaTypeNames;
+
 using System.Text.Encodings.Web;
 
 namespace taskMasterClientTest.Service
@@ -16,8 +12,7 @@ namespace taskMasterClientTest.Service
     {
         public UserDatas CurrentUser = new UserDatas();
         public Data.Data Data = new Data.Data();
-        //List<UserData> Users = new List<UserData>();
-        //List<TaskData> Tasks = new List<TaskData>();
+
         string IpConnection { get; set; }
         HttpContent content;
         HttpResponseMessage response;
@@ -121,6 +116,16 @@ namespace taskMasterClientTest.Service
 
             DisplayResultResponse();
         }
+        public void UpdateTask(HttpClient client)
+        {
+            TaskDatas task = new TaskDatas(17, "Старая задача", "Описание", DateTime.Now, DateTime.Now, "Айтишники", "Завершена", "Высокий");
+            string messageTask = JsonSerializer.Serialize<TaskDatas>(task);
+
+            content = new StringContent(messageTask, Encoding.UTF8, RequestType.UpdateTask.GetDescription());
+            response = client.PostAsync(IpConnection, content).Result;
+
+            DisplayResultResponse();
+        }
         public void Display()
         {
             Console.WriteLine("------------------------------------------------------------");
@@ -155,10 +160,6 @@ namespace taskMasterClientTest.Service
         public string GetResponseContent()
         {
             return response.Content.ReadAsStringAsync().Result;
-            //StreamReader reader = new StreamReader(response.Content.ReadAsStream(), Encoding.Unicode);
-            //string responseContent = reader.ReadToEnd();
-            //reader.Close();
-            //return responseContent;
         }
 
         public void DisplayAllData()

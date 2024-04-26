@@ -6,18 +6,19 @@ namespace TaskMasterServer.Service.Business.CRUD
 {
     internal static class CreateData
     {
-        public static string CreateTask(TaskData task)
+        public static string CreateTask(TaskData newTask)
         {
             Task taskBD = new Task();
-            taskBD.TaskName = task.Title;
-            taskBD.Description = task.Description;
-            taskBD.DateCreate = task.StartDate;
-            taskBD.Deadline = task.DeadLine;
-            taskBD.DepartmentId = DataBd.ReadDepartment()?.Where(d => d.DepartmentName == task.Department)?.FirstOrDefault()?.DepartmentId ?? 0;
-            taskBD.StatusId = 1;
-            taskBD.PriorityId = DataBd.ReadPriority()?.Where(p => p.PriorityType == task.Priority).FirstOrDefault()?.PriorityId ?? 0;
+            taskBD.TaskName = newTask.Title;
+            taskBD.Description = newTask.Description;
+            taskBD.DateCreate = newTask.StartDate;
+            taskBD.Deadline = newTask.DeadLine;
+            taskBD.DepartmentId = DataBd.ReadDepartment()?.Where(d => d.DepartmentName == newTask.Department)?.FirstOrDefault()?.DepartmentId ?? 0;
+            taskBD.StatusId = DataBd.ReadStatuses()?.Where(s => s.StatusType == newTask.Status).FirstOrDefault()?.StatusId ?? 0;
+            taskBD.PriorityId = DataBd.ReadPriority()?.Where(p => p.PriorityType == newTask.Priority).FirstOrDefault()?.PriorityId ?? 0;
 
             if (taskBD.DepartmentId == 0) return "Неверно указаный департамент";
+            if (taskBD.StatusId == 0) return "Неверно указаный статус";
             if (taskBD.PriorityId == 0) return "Неверно указаный Приоритет";
 
             using (TaskUser_dbContext dbContext = new TaskUser_dbContext())
@@ -30,19 +31,19 @@ namespace TaskMasterServer.Service.Business.CRUD
 
 
         }
-        public static string CreateUser(UserData user)
+        public static string CreateUser(UserData newUser)
         {
             User userBD = new User();
-            userBD.Login = user.Login;
-            userBD.Password = user.Password;
-            userBD.Email = user.Email;
-            userBD.Firstname = user.FirstName;
-            userBD.Lastname = user.LastName;
-            userBD.Brithday = user.Birthday;
-            userBD.Contactphone = user.ContactPhone;
-            userBD.DepartmentId = DataBd.ReadDepartment()?.Where(d => d.DepartmentName == user.Department)?.FirstOrDefault()?.DepartmentId ?? 0;
+            userBD.Login = newUser.Login;
+            userBD.Password = newUser.Password;
+            userBD.Email = newUser.Email;
+            userBD.Firstname = newUser.FirstName;
+            userBD.Lastname = newUser.LastName;
+            userBD.Brithday = newUser.Birthday;
+            userBD.Contactphone = newUser.ContactPhone;
+            userBD.DepartmentId = DataBd.ReadDepartment()?.Where(d => d.DepartmentName == newUser.Department)?.FirstOrDefault()?.DepartmentId ?? 0;
             userBD.Isresponsible = false;
-            userBD.Isadmin = user.IsAdmin;
+            userBD.Isadmin = newUser.IsAdmin;
 
             if (userBD.DepartmentId == 0) return "Неверно указан департамент";
 
