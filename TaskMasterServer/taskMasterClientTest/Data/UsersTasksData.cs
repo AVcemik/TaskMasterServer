@@ -2,13 +2,13 @@
 {
     internal class UsersTasksData
     {
-        public List<UserData> _users;
-        public List<TaskData> _tasks;
+        public List<UserDatas> _users;
+        public List<TaskDatas> _tasks;
 
         public UsersTasksData()
         {
-            _users = new List<UserData>();
-            _tasks = new List<TaskData>();
+            _users = new List<UserDatas>();
+            _tasks = new List<TaskDatas>();
         }
     }
 }

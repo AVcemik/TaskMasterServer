@@ -14,12 +14,10 @@ namespace TaskMasterServer.Service.Business.CRUD
             taskBD.DateCreate = task.StartDate;
             taskBD.Deadline = task.DeadLine;
             taskBD.DepartmentId = DataBd.ReadDepartment()?.Where(d => d.DepartmentName == task.Department)?.FirstOrDefault()?.DepartmentId ?? 0;
-            //taskBD.StatusId = DataBd.ReadStatuses()?.Where(s => s.StatusType == task.Status).FirstOrDefault()?.StatusId ?? 0;
             taskBD.StatusId = 1;
             taskBD.PriorityId = DataBd.ReadPriority()?.Where(p => p.PriorityType == task.Priority).FirstOrDefault()?.PriorityId ?? 0;
 
             if (taskBD.DepartmentId == 0) return "Неверно указаный департамент";
-            if (taskBD.StatusId == 0) return "Неверно указаный статус";
             if (taskBD.PriorityId == 0) return "Неверно указаный Приоритет";
 
             using (TaskUser_dbContext dbContext = new TaskUser_dbContext())
@@ -56,18 +54,44 @@ namespace TaskMasterServer.Service.Business.CRUD
             DataBd.UpdateTempBD();
             return "Пользователь успешно добавлен";
         }
-        public static string CreateDepartment(DepartmentData department)
+        public static string CreateDepartment(DepartmentData newDepartment)
         {
-            Department departmentBD = new Department();
-            departmentBD.DepartmentName = department.Name;
+            Department departmentDB = new Department();
+            departmentDB.DepartmentName = newDepartment.Name;
 
             using (TaskUser_dbContext dbContext = new TaskUser_dbContext())
             {
-                dbContext.Add(departmentBD);
+                dbContext.Add(departmentDB);
                 dbContext.SaveChanges();
             }
             DataBd.UpdateTempBD();
             return "Департамент успешно добавлен";
+        }
+        public static string CreatePrioritet(PriorityData newPrioritet)
+        {
+            Priority priorityDB = new Priority();
+            priorityDB.PriorityType = newPrioritet.PriorityType;
+
+            using (TaskUser_dbContext dbContext = new TaskUser_dbContext())
+            {
+                dbContext.Add(priorityDB);
+                dbContext.SaveChanges();
+            }
+            DataBd.UpdateTempBD();
+            return "Статус успешно добавлен";
+        }
+        public static string CreateStatus(StatusData newStatus)
+        {
+            Status statusDB = new Status();
+            statusDB.StatusType = newStatus.StatusType;
+
+            using (TaskUser_dbContext dbContext = new TaskUser_dbContext())
+            {
+                dbContext.Add(statusDB);
+                dbContext.SaveChanges();
+            }
+            DataBd.UpdateTempBD();
+            return "Статус успешно добавлен";
         }
     }
 }

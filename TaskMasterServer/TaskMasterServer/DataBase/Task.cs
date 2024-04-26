@@ -27,7 +27,7 @@ namespace TaskMasterServer.DataBase
 
         internal TaskData ConvertToData()
         {
-            return new TaskData(TaskId, TaskName, Description, DateCreate, Deadline, Status!.StatusType, Priority!.PriorityType);
+            return new TaskData(TaskId, TaskName, Description, DateCreate, Deadline, Department!.DepartmentName!, Status!.StatusType, Priority!.PriorityType);
         }
     }
 }

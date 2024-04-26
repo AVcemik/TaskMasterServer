@@ -13,11 +13,5 @@ namespace TaskMasterServer.Data
             Id = id;
             Name = name;
         }
-
-        public void SetDepartmentDataConvertDepartmentBd(Department departmentBd)
-        {
-            Id = departmentBd.DepartmentId;
-            Name = departmentBd.DepartmentName;
-        }
     }
 }

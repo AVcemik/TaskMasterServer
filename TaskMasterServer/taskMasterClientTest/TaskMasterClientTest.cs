@@ -1,4 +1,7 @@
-﻿using taskMasterClientTest.Service;
+﻿using taskMasterClientTest.Data;
+using taskMasterClientTest.Service;
+
+Data data = new Data();
 
 string postServer = "http://176.123.160.24:8080";
 string postLocal = "http://localhost:8080";
@@ -9,12 +12,13 @@ Console.ReadKey();
 
 using (HttpClient client = new HttpClient())
 {
-    User user = new User(postLocal);
+    User user = new User(postServer);
     user.Login(client, "it2", "2");
-    user.Display();
+    //user.Display();
     //user.CreateTask(client);
     //user.CreateUser(client);
-    user.CreateDepartment(client);
+    //user.CreateDepartment(client);
+    user.DisplayAllData();
 }
 
 Console.WriteLine("Нажмите любую клаавишу для завершения....");

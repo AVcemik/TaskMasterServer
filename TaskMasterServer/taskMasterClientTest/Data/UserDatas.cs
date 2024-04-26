@@ -1,6 +1,6 @@
 ﻿namespace taskMasterClientTest.Data
 {
-    internal class UserData
+    internal class UserDatas
     {
         public int? Id { get; set; }
         public string? FirstName { get; set; }
@@ -11,34 +11,34 @@
         public string? Password { get; set; }
         public string? Email { get; set; }
         public string? Department { get; set; }
-        public bool? IsResponsible { get; set; }
-        public UserData()
+        public bool? IsResponsible { get; set; } = false;
+        public bool? IsAdmin { get; set; } = false;
+        public UserDatas() { }
+        public UserDatas(string? firstName, string? lastName, DateTime? birthDay, string? contactPhone, string? login, string? password, string? email, string? department, bool? isAdmin)
         {
-            IsResponsible = false;
-        }
-
-        public UserData(int id, string? firstName, string? lastName, DateTime? birthDay, string? contactPhone, string? login, string? password, string? department, bool? isResponsible)
-        {
-            Id = id;
             FirstName = firstName;
             LastName = lastName;
             Birthday = birthDay;
             ContactPhone = contactPhone;
             Login = login;
             Password = password;
+            Email = email;
+            Department = department;
+            IsResponsible = false;
+            IsAdmin = isAdmin;
+        }
+        public UserDatas(string? firstName, string? lastName, DateTime? birthDay, string? contactPhone, string? login, string? password, string? email, string? department, bool? isResponsible, bool? isAdmin)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            Birthday = birthDay;
+            ContactPhone = contactPhone;
+            Login = login;
+            Password = password;
+            Email = email;
             Department = department;
             IsResponsible = isResponsible;
-        }
-        public UserData(string? firstName, string? lastName, DateTime? birthDay, string? contactPhone, string? login, string? password, string? department)
-        {
-            FirstName = firstName;
-            LastName = lastName;
-            Birthday = birthDay;
-            ContactPhone = contactPhone;
-            Login = login;
-            Password = password;
-            Department = department;
-            IsResponsible = false;
+            IsAdmin = isAdmin;
         }
     }
 }

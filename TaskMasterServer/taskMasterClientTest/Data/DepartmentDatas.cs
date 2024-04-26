@@ -1,11 +1,12 @@
 ﻿namespace taskMasterClientTest.Data
 {
-    internal class DepartmentData
+    internal class DepartmentDatas
     {
         public int Id { get; set; }
         public string? Name { get; set; }
-        public DepartmentData() { }
-        public DepartmentData(string name)
+        public DepartmentDatas() { }
+
+        public DepartmentDatas(string? name)
         {
             Name = name;
         }

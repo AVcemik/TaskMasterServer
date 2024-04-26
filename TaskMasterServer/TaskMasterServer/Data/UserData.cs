@@ -13,10 +13,7 @@
         public string? Department { get; set; }
         public bool? IsResponsible { get; set; } = false;
         public bool? IsAdmin { get; set; } = false;
-        public UserData()
-        {
-            
-        }
+        public UserData() { }
 
         public UserData(int id, string? firstName, string? lastName, DateTime? birthDay, string? contactPhone, string? login, string? password, string? email, string? department, bool? isResponsible, bool? isAdmin)
         {

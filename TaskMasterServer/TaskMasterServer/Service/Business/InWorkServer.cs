@@ -1,4 +1,7 @@
-﻿using TaskMasterServer.Service.Business.CRUD;
+﻿using System.Text;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using TaskMasterServer.Service.Business.CRUD;
 using TaskMasterServer.Service.Csv;
 using TaskMasterServer.Service.HTTP;
 using TaskMasterServer.Service.JSON;
@@ -30,8 +33,17 @@ namespace TaskMasterServer.Service.Business
                 //Запросы
                 if (_server.GetContentType()!.ToLower() == RequestType.Authorization.GetDescription().ToLower())
                 {
-                    _data = Authorization.Login(JsonReadData.ReadUser(_server.GetRequestBody()));
+                    _data = AuthorizationUser.Login(JsonReadData.ReadUser(_server.GetRequestBody()));
 
+                    JsonSerializerOptions options = new JsonSerializerOptions()
+                    {
+                        WriteIndented = true,
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+
+                    };
+                    string result = JsonSerializer.Serialize(_data, options);
+                    _server.Send(result, _server.GetResponse()!);
 
                     //string csvData = ICsvString.CsvWriteString(_data);
                     //_server.Send(csvData, _server.GetResponse()!);
