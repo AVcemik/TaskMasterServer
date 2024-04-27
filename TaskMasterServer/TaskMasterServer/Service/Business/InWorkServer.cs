@@ -1,8 +1,6 @@
-﻿using System.Text;
-using System.Text.Encodings.Web;
+﻿using System.Text.Encodings.Web;
 using System.Text.Json;
 using TaskMasterServer.Service.Business.CRUD;
-using TaskMasterServer.Service.Csv;
 using TaskMasterServer.Service.HTTP;
 using TaskMasterServer.Service.JSON;
 
@@ -15,7 +13,7 @@ namespace TaskMasterServer.Service.Business
         private bool _isWhileContinue = false;
         public InWorkServer(bool prefixServer)
         {
-            _server = new Server(prefixServer);
+            _server = new Server(prefixServer, 8888);
             _data = new Data.Data();
         }
         public void Start()
@@ -83,7 +81,7 @@ namespace TaskMasterServer.Service.Business
                 }
 
                 // Обновление задачи
-                else if (_server.GetContentType()!.ToLower() == RequestType.AddTask.GetDescription().ToLower())
+                else if (_server.GetContentType()!.ToLower() == RequestType.UpdateTask.GetDescription().ToLower())
                 {
                     string result = UpdateData.UpdateTask(JsonReadData.ReadTask(_server.GetRequestBody()));
                     _server.Send(result, _server.GetResponse()!);
@@ -91,28 +89,28 @@ namespace TaskMasterServer.Service.Business
                 }
 
                 // Обновление пользователя
-                else if (_server.GetContentType()!.ToLower() == RequestType.AddUser.GetDescription().ToLower())
+                else if (_server.GetContentType()!.ToLower() == RequestType.UpdateUser.GetDescription().ToLower())
                 {
                     string result = UpdateData.UpdateUser(JsonReadData.ReadUser(_server.GetRequestBody()));
                     _server.Send(result, _server.GetResponse()!);
                 }
 
                 // Обновление департамента
-                else if (_server.GetContentType()!.ToLower() == RequestType.AddDepartment.GetDescription().ToLower())
+                else if (_server.GetContentType()!.ToLower() == RequestType.UpdateDepartment.GetDescription().ToLower())
                 {
                     string result = UpdateData.UpdateDepartment(JsonReadData.ReadDepartment(_server.GetRequestBody()));
                     _server.Send(result, _server.GetResponse()!);
                 }
 
                 // Обновление Приоритета
-                else if (_server.GetContentType()!.ToLower() == RequestType.AddPrioritet.GetDescription().ToLower())
+                else if (_server.GetContentType()!.ToLower() == RequestType.UpdatePrioritet.GetDescription().ToLower())
                 {
                     string result = UpdateData.UpdatePrioritet(JsonReadData.ReadPrioritet(_server.GetRequestBody()));
                     _server.Send(result, _server.GetResponse()!);
                 }
 
                 // Обновление статуса
-                else if (_server.GetContentType()!.ToLower() == RequestType.AddStatus.GetDescription().ToLower())
+                else if (_server.GetContentType()!.ToLower() == RequestType.UpdateStatus.GetDescription().ToLower())
                 {
                     string result = UpdateData.UpdateStatus(JsonReadData.ReadStatus(_server.GetRequestBody()));
                     _server.Send(result, _server.GetResponse()!);

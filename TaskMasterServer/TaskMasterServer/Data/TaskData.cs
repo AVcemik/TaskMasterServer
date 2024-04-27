@@ -2,7 +2,7 @@
 
 namespace TaskMasterServer.Data
 {
-    public class TaskData
+    internal class TaskData
     {
         public int Id { get; set; }
         public string? Title { get; set; }

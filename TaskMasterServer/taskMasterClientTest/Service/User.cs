@@ -17,9 +17,15 @@ namespace taskMasterClientTest.Service
         HttpContent content;
         HttpResponseMessage response;
 
+        JsonSerializerOptions jsonOptions = new JsonSerializerOptions();
+
         public User(string ipConnection) 
         {
             IpConnection = ipConnection;
+
+            jsonOptions.WriteIndented = true;
+            jsonOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+            jsonOptions.Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
         }
 
         public void Login(HttpClient client, string login, string password)
@@ -38,56 +44,14 @@ namespace taskMasterClientTest.Service
 
                 using (StreamReader reader = new StreamReader(response.Content.ReadAsStream(), Encoding.Unicode))
                 {
-                    JsonSerializerOptions options = new JsonSerializerOptions()
-                    {
-                        WriteIndented = true,
-                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-
-                    };
-                    Data = JsonSerializer.Deserialize<Data.Data>(reader.ReadToEnd(), options);
+                    Data = JsonSerializer.Deserialize<Data.Data>(reader.ReadToEnd(), jsonOptions);
                 }
             }
-            //    if (response.IsSuccessStatusCode)
-            //    {
-
-            //        try
-            //        {
-            //            CsvConfiguration csvConfig = new CsvConfiguration(CultureInfo.InvariantCulture);
-            //            StreamReader reader = new StreamReader(response.Content.ReadAsStream(), Encoding.Unicode);
-
-            //            string[] dataUserTask = reader.ReadToEnd().Split('^');
-
-            //            TextReader usersReader = new StringReader(dataUserTask[0]);
-            //            TextReader tasksReder = new StringReader(dataUserTask[1]);
-
-
-            //            using (CsvReader csvReader = new CsvReader(usersReader, csvConfig))
-            //            {
-            //                Users = csvReader.GetRecords<UserData>().ToList();
-            //            }
-
-            //            using (CsvReader csvReader = new CsvReader(tasksReder, csvConfig))
-            //            {
-            //                Tasks = csvReader.GetRecords<TaskData>().ToList();
-            //            }
-
-            //            reader.Close();
-            //            usersReader.Close();
-            //            tasksReder.Close();
-            //        }
-            //        catch (Exception ex)
-            //        {
-            //            Console.WriteLine("Ошибка в потоках или csv");
-            //            Console.WriteLine(ex.ToString());
-            //        }
-
-            //    }
             else { Console.WriteLine("Ответ от сервера: " + response.StatusCode); }
         }
         public void CreateTask(HttpClient client)
         {
-            TaskDatas task = new TaskDatas("Сервер тест", "Описание", DateTime.Now, DateTime.Now, "Айтишники", "Низкий");
+            TaskDatas task = new TaskDatas("Сервер тест", "Описание", DateTime.Now, DateTime.Now, "Айтишники", "Создана", "Низкий");
             string messageTask = JsonSerializer.Serialize<TaskDatas>(task);
 
             content = new StringContent(messageTask, Encoding.UTF8, RequestType.AddTask.GetDescription());
@@ -118,7 +82,7 @@ namespace taskMasterClientTest.Service
         }
         public void UpdateTask(HttpClient client)
         {
-            TaskDatas task = new TaskDatas(17, "Старая задача", "Описание", DateTime.Now, DateTime.Now, "Айтишники", "Завершена", "Высокий");
+            TaskDatas task = new TaskDatas(1007, "Старая задача", "Описание", DateTime.Now, DateTime.Now, "Айтишники", "Завершена", "Высокий");
             string messageTask = JsonSerializer.Serialize<TaskDatas>(task);
 
             content = new StringContent(messageTask, Encoding.UTF8, RequestType.UpdateTask.GetDescription());
@@ -159,7 +123,12 @@ namespace taskMasterClientTest.Service
         }
         public string GetResponseContent()
         {
-            return response.Content.ReadAsStringAsync().Result;
+            string? result = null;
+            using (StreamReader reader = new StreamReader(response.Content.ReadAsStream(), Encoding.Unicode))
+            {
+                result = reader.ReadToEnd();
+            }
+            return result;
         }
 
         public void DisplayAllData()

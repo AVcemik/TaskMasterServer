@@ -41,19 +41,21 @@ namespace TaskMasterServer.Service.HTTP
         private string? _contentType;
         private Data.Data _currentResponseInRequestData = new Data.Data();
         private int _count = 1;
+        private int _port = 8080;
         private bool _prefixServer = true;
-        public Server(bool prefixServer)
+        public Server(bool prefixServer, int port)
         {
+            _port = port;
             _prefixServer = prefixServer;
 
             if (_prefixServer)
             {
-                _server.Prefixes.Add($"http://*:{8080}/");
-                _server.Prefixes.Add($"http://+:{8080}/");
+                _server.Prefixes.Add($"http://*:{_port}/");
+                _server.Prefixes.Add($"http://+:{_port}/");
             }
             else
             {
-                _server.Prefixes.Add($"http://localhost:{8080}/");
+                _server.Prefixes.Add($"http://localhost:{_port}/");
             }
         }
 
@@ -109,9 +111,9 @@ namespace TaskMasterServer.Service.HTTP
             }
             _requestBody = requestBody;
         }
-        public void Send(string csvData, HttpListenerResponse response)
+        public void Send(string data, HttpListenerResponse response)
         {
-            byte[] buffer = System.Text.Encoding.Unicode.GetBytes(csvData);
+            byte[] buffer = System.Text.Encoding.Unicode.GetBytes(data);
             response.ContentLength64 = buffer.Length;
             Stream output = response.OutputStream;
             output.Write(buffer, 0, buffer.Length);
