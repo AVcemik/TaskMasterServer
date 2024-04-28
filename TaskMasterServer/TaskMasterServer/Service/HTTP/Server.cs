@@ -28,7 +28,7 @@ enum RequestType
     [Description("Application/UpdateStatus")]
     UpdateStatus,
     [Description("Application/DeleteUser")]
-    DelteUser,
+    DeleteUser,
     [Description("Application/DeleteTask")]
     DeleteTask,
     [Description("Application/DeleteDepartment")]

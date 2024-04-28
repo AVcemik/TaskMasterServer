@@ -1,4 +1,5 @@
-﻿using TaskBD = TaskMasterServer.DataBase.Task;
+﻿using TaskMasterServer.Service.Business.CRUD;
+using TaskBD = TaskMasterServer.DataBase.Task;
 namespace TaskMasterServer.DataBase
 {
     internal static  class DataBd
@@ -38,7 +39,6 @@ namespace TaskMasterServer.DataBase
                 _authorizations = dbContext.Authorizations!.ToList();
                 _comments = dbContext.Comments!.ToList();
             }
-
             ConvertationBdToData();
         }
         private static void ConvertationBdToData()
@@ -83,6 +83,43 @@ namespace TaskMasterServer.DataBase
             _data.Departments.Clear();
             _data.Statuses.Clear();
             _data.Priorities.Clear();
+        }
+        public static void CheckStatusTask()
+        {
+            string statusOverdue = "Просрочена";
+            List<TaskBD> updateTaskDb = new();
+
+            if (!_statuses.Any(s => s.StatusType == statusOverdue))
+            {
+                Status status = new() { StatusType = statusOverdue };
+                using (TaskUser_dbContext dbContext = new())
+                {
+                    dbContext.Add(status);
+                    dbContext.SaveChanges();
+                    _statuses = dbContext.Statuses!.ToList();
+                }
+            }
+
+            int statusOverdueId = _statuses.Where(s => s.StatusType == statusOverdue).First().StatusId;
+
+            foreach (var task in _tasks)
+            {
+                if (DateTime.Now > task.Deadline)
+                {
+                    task.StatusId = statusOverdueId;
+                    task.Status = _statuses.Where(s => s.StatusType == statusOverdue).First();
+                    updateTaskDb.Add(task);
+                }
+            }
+            if (updateTaskDb.Count >= 0)
+            {
+                using (TaskUser_dbContext dbContext = new())
+                {
+                    dbContext.UpdateRange(updateTaskDb);
+                    dbContext.SaveChanges();
+                }
+            }
+            UpdateTempBD();
         }
     }
 }

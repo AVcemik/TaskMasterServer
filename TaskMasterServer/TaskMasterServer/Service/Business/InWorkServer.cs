@@ -116,18 +116,21 @@ namespace TaskMasterServer.Service.Business
                     _server.Send(result, _server.GetResponse()!);
                 }
 
+                // Удаление задачи
+                else if (_server.GetContentType()!.ToLower() == RequestType.DeleteTask.GetDescription().ToLower())
+                {
+                    string result = DeleteData.DeleteTask(JsonReadData.ReadTask(_server.GetRequestBody()));
+                    _server.Send(result, _server.GetResponse()!);
+                }
 
+                // Удаление пользователя
+                else if (_server.GetContentType()!.ToLower() == RequestType.DeleteUser.GetDescription().ToLower())
+                {
+                    string result = DeleteData.DeleteUser(JsonReadData.ReadUser(_server.GetRequestBody()));
+                    _server.Send(result, _server.GetResponse()!);
+                }
 
                 Console.WriteLine($"Клиент: {_server.GetRequest()!.UserHostAddress}\nЗапрос: {_server.GetContentType()!} - Обработан");
-
-                //switch (_server.GetContentType()!.ToLower())
-                //{
-                //    case "application/auth": _data = UserQuery.Authorization(JsonReadData.ReadUser(_server.GetRequestBody()));
-                //        break;
-                //    case "application/taskadd": UserQuery.TaskAdd(JsonReadData.ReadTask(_server.GetRequestBody()));
-                //        break;
-                //}
-
             }
         }
     }

@@ -28,7 +28,7 @@ namespace TaskMasterServer.Service.Business.CRUD
             if (taskDB.StatusId == 0) return "Неверно указан статус";
             if (taskDB.PriorityId == 0) return "Неверно указан приоритет";
 
-            using (TaskUser_dbContext dbContext = new TaskUser_dbContext())
+            using (TaskUser_dbContext dbContext = new())
             {
                 dbContext.Add(taskDB);
                 dbContext.SaveChanges();
@@ -63,7 +63,7 @@ namespace TaskMasterServer.Service.Business.CRUD
             if (userDB.Contactphone == null || userDB.Contactphone.Trim() == "") return "Контактный телефон пользователя не указан";
             if (userDB.DepartmentId == 0) return "Неверно указан департамент";
 
-            using (TaskUser_dbContext dbContext = new TaskUser_dbContext())
+            using (TaskUser_dbContext dbContext = new())
             {
                 dbContext.Add(userDB);
                 dbContext.SaveChanges();
@@ -82,7 +82,7 @@ namespace TaskMasterServer.Service.Business.CRUD
 
             if (departmentDB.DepartmentName == null || departmentDB.DepartmentName.Trim() == "") return "Не указано название отдела";
 
-            using (TaskUser_dbContext dbContext = new TaskUser_dbContext())
+            using (TaskUser_dbContext dbContext = new())
             {
                 dbContext.Add(departmentDB);
                 dbContext.SaveChanges();
@@ -101,7 +101,7 @@ namespace TaskMasterServer.Service.Business.CRUD
 
             if (priorityDB.PriorityType == null || priorityDB.PriorityType.Trim() == "") return "Не указано название приоритета";
 
-            using (TaskUser_dbContext dbContext = new TaskUser_dbContext())
+            using (TaskUser_dbContext dbContext = new())
             {
                 dbContext.Add(priorityDB);
                 dbContext.SaveChanges();
@@ -120,7 +120,7 @@ namespace TaskMasterServer.Service.Business.CRUD
 
             if (statusDB.StatusType == null || statusDB.StatusType.Trim() == "") return "Не указано название статуса";
 
-            using (TaskUser_dbContext dbContext = new TaskUser_dbContext())
+            using (TaskUser_dbContext dbContext = new())
             {
                 dbContext.Add(statusDB);
                 dbContext.SaveChanges();

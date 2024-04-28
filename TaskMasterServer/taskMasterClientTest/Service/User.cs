@@ -11,7 +11,7 @@ namespace taskMasterClientTest.Service
     internal class User
     {
         public UserDatas CurrentUser = new UserDatas();
-        public Data.Data Data = new Data.Data();
+        public Data.Data CurrentData = new Data.Data();
 
         string IpConnection { get; set; }
         HttpContent content;
@@ -44,7 +44,7 @@ namespace taskMasterClientTest.Service
 
                 using (StreamReader reader = new StreamReader(response.Content.ReadAsStream(), Encoding.Unicode))
                 {
-                    Data = JsonSerializer.Deserialize<Data.Data>(reader.ReadToEnd(), jsonOptions);
+                    CurrentData = JsonSerializer.Deserialize<Data.Data>(reader.ReadToEnd(), jsonOptions);
                 }
             }
             else { Console.WriteLine("Ответ от сервера: " + response.StatusCode); }
@@ -90,25 +90,34 @@ namespace taskMasterClientTest.Service
 
             DisplayResultResponse();
         }
+        public void DeleteTask(HttpClient client)
+        {
+            TaskDatas task = CurrentData.Tasks.Where(t => t.Title == "Старая задача").First();
+            string messageTask = JsonSerializer.Serialize<TaskDatas>(task);
+
+            content = new StringContent(messageTask, Encoding.UTF8, RequestType.DeleteTask.GetDescription());
+            response = client.PostAsync(IpConnection, content).Result;
+
+            DisplayResultResponse();
+        }
         public void Display()
         {
             Console.WriteLine("------------------------------------------------------------");
             Console.WriteLine("Пользователи: ");
-            foreach (UserDatas user in Data.Users)
+            foreach (UserDatas user in CurrentData.Users)
             {
                 Console.WriteLine($"{user.Id} - {user.FirstName} - {user.LastName} - {user.Birthday} - {user.ContactPhone} - {user.Login} - {user.Password} - {user.Email} - {user.Department} - {user.IsResponsible}");
             }
 
             Console.WriteLine("------------------------------------------------------------");
             Console.WriteLine("Задачи отдела пользователя:");
-            foreach (TaskDatas task in Data.Tasks)
+            foreach (TaskDatas task in CurrentData.Tasks)
             {
                 Console.WriteLine($"{task.Id} - {task.Title} - {task.Description} - {task.StartDate} - {task.DeadLine} - {task.Department} - {task.Status} - {task.Priority}");
             }
             Console.WriteLine("------------------------------------------------------------");
             Console.WriteLine();
         }
-        
         public void DisplayResultResponse()
         {
             if (response.IsSuccessStatusCode)
@@ -130,37 +139,36 @@ namespace taskMasterClientTest.Service
             }
             return result;
         }
-
         public void DisplayAllData()
         {
             Console.WriteLine("------------------------------------------------------------");
             Console.WriteLine("Пользователи: ");
-            foreach (UserDatas user in Data.Users)
+            foreach (UserDatas user in CurrentData.Users)
             {
                 Console.WriteLine($"{user.Id} - {user.FirstName} - {user.LastName} - {user.Birthday} - {user.ContactPhone} - {user.Login} - {user.Password} - {user.Email} - {user.Department} - {user.IsResponsible}");
             }
 
             Console.WriteLine("------------------------------------------------------------");
             Console.WriteLine("Задачи отдела пользователя:");
-            foreach (TaskDatas task in Data.Tasks)
+            foreach (TaskDatas task in CurrentData.Tasks)
             {
                 Console.WriteLine($"{task.Id} - {task.Title} - {task.Description} - {task.StartDate} - {task.DeadLine} - {task.Department} - {task.Status} - {task.Priority}");
             }
             Console.WriteLine("------------------------------------------------------------");
             Console.WriteLine("Список отделов:");
-            foreach (DepartmentDatas department in Data.Departments)
+            foreach (DepartmentDatas department in CurrentData.Departments)
             {
                 Console.WriteLine($"{department.Id} - {department.Name}");
             }
             Console.WriteLine("------------------------------------------------------------");
             Console.WriteLine("Список отделов:");
-            foreach (PriorityDatas priritet in Data.Priorities)
+            foreach (PriorityDatas priritet in CurrentData.Priorities)
             {
                 Console.WriteLine($"{priritet.Id} - {priritet.PriorityType}");
             }
             Console.WriteLine("------------------------------------------------------------");
             Console.WriteLine("Список отделов:");
-            foreach (StatusDatas status in Data.Statuses)
+            foreach (StatusDatas status in CurrentData.Statuses)
             {
                 Console.WriteLine($"{status.Id} - {status.StatusType}");
             }

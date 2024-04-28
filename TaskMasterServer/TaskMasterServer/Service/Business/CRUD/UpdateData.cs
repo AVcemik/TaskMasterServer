@@ -10,15 +10,17 @@ namespace TaskMasterServer.Service.Business.CRUD
         public static string UpdateTask(TaskData updateTask)
         {
             string result = "Неизвестная ошибка";
-            Task taskDB = new Task();
-            taskDB.TaskId = updateTask.Id;
-            taskDB.TaskName = updateTask.Title;
-            taskDB.Description = updateTask.Description;
-            taskDB.DateCreate = DataBd.ReadTask()?.Where(t => t.TaskId == updateTask.Id)?.FirstOrDefault()?.DateCreate ?? null;
-            taskDB.Deadline = updateTask.DeadLine;
-            taskDB.DepartmentId = DataBd.ReadDepartment()?.Where(d => d.DepartmentName == updateTask.Department)?.FirstOrDefault()?.DepartmentId ?? 0;
-            taskDB.StatusId = DataBd.ReadStatuses()?.Where(s => s.StatusType == updateTask.Status).FirstOrDefault()?.StatusId ?? 0;
-            taskDB.PriorityId = DataBd.ReadPriority()?.Where(p => p.PriorityType == updateTask.Priority).FirstOrDefault()?.PriorityId ?? 0;
+            Task taskDB = new()
+            {
+                TaskId = updateTask.Id,
+                TaskName = updateTask.Title,
+                Description = updateTask.Description,
+                DateCreate = DataBd.ReadTask()?.Where(t => t.TaskId == updateTask.Id)?.FirstOrDefault()?.DateCreate ?? null,
+                Deadline = updateTask.DeadLine,
+                DepartmentId = DataBd.ReadDepartment()?.Where(d => d.DepartmentName == updateTask.Department)?.FirstOrDefault()?.DepartmentId ?? 0,
+                StatusId = DataBd.ReadStatuses()?.Where(s => s.StatusType == updateTask.Status).FirstOrDefault()?.StatusId ?? 0,
+                PriorityId = DataBd.ReadPriority()?.Where(p => p.PriorityType == updateTask.Priority).FirstOrDefault()?.PriorityId ?? 0
+            };
 
             if (taskDB.StatusId == 0) return "Неверно указан Id задачи";
             if (taskDB.TaskName == null || taskDB.TaskName.Trim() == "") return "Заголовок задачи не указан";
@@ -29,7 +31,7 @@ namespace TaskMasterServer.Service.Business.CRUD
             if (taskDB.StatusId == 0) return "Неверно указан статус";
             if (taskDB.PriorityId == 0) return "Неверно указан приоритет";
 
-            using (TaskUser_dbContext dbContext = new TaskUser_dbContext())
+            using (TaskUser_dbContext dbContext = new())
             {
                 if (DataBd.ReadData().Tasks.Any(t => t.Id == taskDB.TaskId) == true)
                 {
@@ -45,7 +47,7 @@ namespace TaskMasterServer.Service.Business.CRUD
         public static string UpdateUser(UserData updateUser)
         {
             string result = "Неизвестная ошибка";
-            User userDB = new User
+            User userDB = new()
             {
                 UserId = updateUser.Id,
                 Login = updateUser.Login,
@@ -70,7 +72,7 @@ namespace TaskMasterServer.Service.Business.CRUD
             if (userDB.Contactphone == null || userDB.Contactphone.Trim() == "") return "Контактный телефон пользователя не указан";
             if (userDB.DepartmentId == 0) return "Неверно указан департамент";
 
-            using (TaskUser_dbContext dbContext = new TaskUser_dbContext())
+            using (TaskUser_dbContext dbContext = new())
             {
                 if (DataBd.ReadData().Users.Any(u => u.Id == userDB.UserId) == true)
                 {
@@ -94,7 +96,7 @@ namespace TaskMasterServer.Service.Business.CRUD
             if (departmentDB.DepartmentId == 0) return "Не верно указан Id отдела";
             if (departmentDB.DepartmentName == null || departmentDB.DepartmentName.Trim() == "") return "Не указано название отдела";
 
-            using (TaskUser_dbContext dbContext = new TaskUser_dbContext())
+            using (TaskUser_dbContext dbContext = new())
             {
                 if (DataBd.ReadData().Departments.Any(d => d.Id == departmentDB.DepartmentId) == true)
                 {
@@ -118,7 +120,7 @@ namespace TaskMasterServer.Service.Business.CRUD
             if (priorityDB.PriorityId == 0) return "Не верно указан Id приоритета";
             if (priorityDB.PriorityType == null || priorityDB.PriorityType.Trim() == "") return "Не указано название приоритета";
 
-            using (TaskUser_dbContext dbContext = new TaskUser_dbContext())
+            using (TaskUser_dbContext dbContext = new())
             {
                 if (DataBd.ReadData().Priorities.Any(p => p.Id == priorityDB.PriorityId) == true)
                 {
@@ -142,7 +144,7 @@ namespace TaskMasterServer.Service.Business.CRUD
             if (statusDB.StatusId == 0) return "Не верно указан Id статуса";
             if (statusDB.StatusType == null || statusDB.StatusType.Trim() == "") return "Не указано название статуса";
 
-            using (TaskUser_dbContext dbContext = new TaskUser_dbContext())
+            using (TaskUser_dbContext dbContext = new())
             {
                 if (DataBd.ReadData().Statuses.Any(d => d.Id == statusDB.StatusId) == true)
                 {

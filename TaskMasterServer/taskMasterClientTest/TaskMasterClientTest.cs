@@ -20,6 +20,7 @@ using (HttpClient client = new HttpClient())
     //user.CreateUser(client);
     //user.CreateDepartment(client);
     //user.UpdateTask(client);
+    user.DeleteTask(client);
 }
 
 Console.WriteLine("Нажмите любую клаавишу для завершения....");
