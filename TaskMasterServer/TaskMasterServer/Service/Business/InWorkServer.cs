@@ -11,9 +11,9 @@ namespace TaskMasterServer.Service.Business
         private Server _server;
         private Data.Data? _data;
         private bool _isWhileContinue = false;
-        public InWorkServer(bool prefixServer)
+        public InWorkServer(bool prefixServer, int port)
         {
-            _server = new Server(prefixServer, 8888);
+            _server = new Server(prefixServer, port);
             _data = new Data.Data();
         }
         public void Start()

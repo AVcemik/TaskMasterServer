@@ -13,13 +13,13 @@ Console.ReadKey();
 using (HttpClient client = new HttpClient())
 {
     User user = new User(postLocal);
-    user.Login(client, "it2", "2");
+    user.Login(client, "admin", "admin");
     //user.Display();
+    user.DisplayAllData();
     //user.CreateTask(client);
     //user.CreateUser(client);
     //user.CreateDepartment(client);
-    //user.DisplayAllData();
-    user.UpdateTask(client);
+    //user.UpdateTask(client);
 }
 
 Console.WriteLine("Нажмите любую клаавишу для завершения....");

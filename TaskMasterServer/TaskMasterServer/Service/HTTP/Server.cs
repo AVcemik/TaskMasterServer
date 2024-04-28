@@ -25,8 +25,18 @@ enum RequestType
     UpdateDepartment,
     [Description("Application/UpdatePrioritet")]
     UpdatePrioritet,
-    [Description("Application/AddStatus")]
-    UpdateStatus
+    [Description("Application/UpdateStatus")]
+    UpdateStatus,
+    [Description("Application/DeleteUser")]
+    DelteUser,
+    [Description("Application/DeleteTask")]
+    DeleteTask,
+    [Description("Application/DeleteDepartment")]
+    DeleteDepartment,
+    [Description("Application/DeletePrioritet")]
+    DeletePrioritet,
+    [Description("Application/DeleteStatus")]
+    DeleteStatus
 }
 
 namespace TaskMasterServer.Service.HTTP
