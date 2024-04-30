@@ -8,11 +8,10 @@ namespace TaskMasterServer.Service.Business
     {
         public static Data.Data Login(UserData currentUser)
         {
-            UserData tempUser = DataBd.ReadData().Users.Where(u => u.Login == currentUser.Login && u.Password == currentUser.Password).ToList()[0];
-
-            if (tempUser != null)
+            if (DataBd.ReadData().Users.Any(u => u.Login == currentUser.Login && u.Password == currentUser.Password))
             {
-               return ReadData.GetData(tempUser);
+                UserData tempUser = DataBd.ReadData().Users.Where(u => u.Login == currentUser.Login && u.Password == currentUser.Password).First();
+                return ReadData.GetData(tempUser);
             }
             else
             {

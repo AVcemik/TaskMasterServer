@@ -1,18 +1,19 @@
-﻿using TaskMasterServer.Service.Business.CRUD;
+﻿using TaskMasterServer.Data;
+using TaskMasterServer.Service.Business.CRUD;
 using TaskBD = TaskMasterServer.DataBase.Task;
 namespace TaskMasterServer.DataBase
 {
     internal static  class DataBd
     {
         private static Data.Data _data = new();
-        private static List<Department> _departments = new();
-        private static List<Attachment> _attachments = new();
-        private static List<Priority> _priorities = new();
-        private static List<Status> _statuses = new();
-        private static List<User> _users = new();
-        private static List<TaskBD> _tasks = new();
-        private static List<Authorization> _authorizations = new();
-        private static List<Comment> _comments = new();
+        private static List<Department> _departments = [];
+        private static List<Attachment> _attachments = [];
+        private static List<Priority> _priorities = [];
+        private static List<Status> _statuses = [];
+        private static List<User> _users = [];
+        private static List<TaskBD> _tasks = [];
+        private static List<Authorization> _authorizations = [];
+        private static List<Comment> _comments = [];
 
 
         public static Data.Data ReadData() { return _data; }
