@@ -1,6 +1,4 @@
-﻿using TaskMasterServer.DataBase;
-
-namespace TaskMasterServer.Data
+﻿namespace TaskMasterServer.Data
 {
     internal class TaskData
     {

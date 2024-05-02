@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using TaskMasterServer.Data;
+﻿using TaskMasterServer.Data;
 using TaskMasterServer.DataBase;
 using Task = TaskMasterServer.DataBase.Task;
 

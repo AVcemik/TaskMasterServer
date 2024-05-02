@@ -27,7 +27,7 @@ namespace TaskMasterServer.DataBase
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseNpgsql(Connection.StringConnection(ConnectionBD.Server));
+                optionsBuilder.UseNpgsql(Connection.StringConnection(ConnectionDB.LocalDbConnection));
             }
         }
 

@@ -1,6 +1,5 @@
 ﻿using TaskMasterServer.Data;
 using TaskMasterServer.DataBase;
-using Task = TaskMasterServer.DataBase.Task;
 
 namespace TaskMasterServer.Service.Business.CRUD
 {
@@ -12,7 +11,7 @@ namespace TaskMasterServer.Service.Business.CRUD
             Data.Data data = DataBd.ReadData();
 
             List<TaskData> tasks = [];
-            List<Department> departments = [];
+            List<DepartmentData> departments = [];
             List<PriorityData> priorities = [];
             List<StatusData> statuses = [];
 

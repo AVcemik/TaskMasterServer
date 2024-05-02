@@ -2,9 +2,15 @@
 using taskMasterClientTest.Service;
 
 Data data = new Data();
-int port = 8888;
-string postServer = "http://176.123.160.24:8080";
-string postLocal = $"http://localhost:{port}";
+
+
+string postServer = "http://176.123.160.24";
+string localServer = "http://localhost";
+int portCifra = 8080;
+int portHome = 8888;
+string connect = $"{localServer}:{portCifra}";
+
+
 
 
 Console.WriteLine("Нажмите любую клавишу для продолжения начала работы приложения...");
@@ -12,7 +18,7 @@ Console.ReadKey();
 
 using (HttpClient client = new HttpClient())
 {
-    User user = new User(postLocal);
+    User user = new User(connect);
     user.Login(client, "admin", "admin");
     //user.Display();
     user.DisplayAllData();
