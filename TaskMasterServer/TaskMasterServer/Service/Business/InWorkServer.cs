@@ -1,6 +1,7 @@
 ﻿using System.Text.Encodings.Web;
 using System.Text.Json;
 using TaskMasterServer.Service.Business.CRUD;
+using TaskMasterServer.Service.Encryption;
 using TaskMasterServer.Service.HTTP;
 using TaskMasterServer.Service.JSON;
 
@@ -25,6 +26,7 @@ namespace TaskMasterServer.Service.Business
             while (true)
             {
                 _server.QueryProcessing(out _isWhileContinue);
+                string? result = null;
 
                 if (_isWhileContinue) continue;
 
@@ -38,95 +40,101 @@ namespace TaskMasterServer.Service.Business
                         WriteIndented = true,
                         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                         Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-
                     };
-                    string result = JsonSerializer.Serialize(_data, options);
-                    _server.Send(result, _server.GetResponse()!);
+                    result = JsonSerializer.Serialize(_data, options);
+
+                    //_server.Send(result, _server.GetResponse()!);
                 }
 
                 // Добавление задачи
                 else if (_server.GetContentType()!.ToLower() == RequestType.AddTask.GetDescription().ToLower())
                 {
-                    string result = CreateData.CreateTask(JsonReadData.ReadTask(_server.GetRequestBody()));
-                    _server.Send(result, _server.GetResponse()!);
-
+                    result = CreateData.CreateTask(JsonReadData.ReadTask(_server.GetRequestBody()));
+                    //_server.Send(result, _server.GetResponse()!);
                 }
 
                 // Добавление пользователя
                 else if (_server.GetContentType()!.ToLower() == RequestType.AddUser.GetDescription().ToLower())
                 {
-                    string result = CreateData.CreateUser(JsonReadData.ReadUser(_server.GetRequestBody()));
-                    _server.Send(result, _server.GetResponse()!);
+                    result = CreateData.CreateUser(JsonReadData.ReadUser(_server.GetRequestBody()));
+                    
+                    //_server.Send(result, _server.GetResponse()!);
                 }
 
                 // Добавление департамента
                 else if (_server.GetContentType()!.ToLower() == RequestType.AddDepartment.GetDescription().ToLower())
                 {
-                    string result = CreateData.CreateDepartment(JsonReadData.ReadDepartment(_server.GetRequestBody()));
-                    _server.Send(result, _server.GetResponse()!);
+                    result = CreateData.CreateDepartment(JsonReadData.ReadDepartment(_server.GetRequestBody()));
+                    //_server.Send(result, _server.GetResponse()!);
                 }
 
                 // Добавление Приоритета
                 else if (_server.GetContentType()!.ToLower() == RequestType.AddPrioritet.GetDescription().ToLower())
                 {
-                    string result = CreateData.CreatePrioritet(JsonReadData.ReadPrioritet(_server.GetRequestBody()));
-                    _server.Send(result, _server.GetResponse()!);
+                    result = CreateData.CreatePrioritet(JsonReadData.ReadPrioritet(_server.GetRequestBody()));
+                    //_server.Send(result, _server.GetResponse()!);
                 }
 
                 // Добавление статуса
                 else if (_server.GetContentType()!.ToLower() == RequestType.AddStatus.GetDescription().ToLower())
                 {
-                    string result = CreateData.CreateStatus(JsonReadData.ReadStatus(_server.GetRequestBody()));
-                    _server.Send(result, _server.GetResponse()!);
+                    result = CreateData.CreateStatus(JsonReadData.ReadStatus(_server.GetRequestBody()));
+                    //_server.Send(result, _server.GetResponse()!);
                 }
 
                 // Обновление задачи
                 else if (_server.GetContentType()!.ToLower() == RequestType.UpdateTask.GetDescription().ToLower())
                 {
-                    string result = UpdateData.UpdateTask(JsonReadData.ReadTask(_server.GetRequestBody()));
-                    _server.Send(result, _server.GetResponse()!);
+                    result = UpdateData.UpdateTask(JsonReadData.ReadTask(_server.GetRequestBody()));
+                    //_server.Send(result, _server.GetResponse()!);
 
                 }
 
                 // Обновление пользователя
                 else if (_server.GetContentType()!.ToLower() == RequestType.UpdateUser.GetDescription().ToLower())
                 {
-                    string result = UpdateData.UpdateUser(JsonReadData.ReadUser(_server.GetRequestBody()));
-                    _server.Send(result, _server.GetResponse()!);
+                    result = UpdateData.UpdateUser(JsonReadData.ReadUser(_server.GetRequestBody()));
+                    //_server.Send(result, _server.GetResponse()!);
                 }
 
                 // Обновление департамента
                 else if (_server.GetContentType()!.ToLower() == RequestType.UpdateDepartment.GetDescription().ToLower())
                 {
-                    string result = UpdateData.UpdateDepartment(JsonReadData.ReadDepartment(_server.GetRequestBody()));
-                    _server.Send(result, _server.GetResponse()!);
+                    result = UpdateData.UpdateDepartment(JsonReadData.ReadDepartment(_server.GetRequestBody()));
+                    //_server.Send(result, _server.GetResponse()!);
                 }
 
                 // Обновление Приоритета
                 else if (_server.GetContentType()!.ToLower() == RequestType.UpdatePrioritet.GetDescription().ToLower())
                 {
-                    string result = UpdateData.UpdatePrioritet(JsonReadData.ReadPrioritet(_server.GetRequestBody()));
-                    _server.Send(result, _server.GetResponse()!);
+                    result = UpdateData.UpdatePrioritet(JsonReadData.ReadPrioritet(_server.GetRequestBody()));
+                    //_server.Send(result, _server.GetResponse()!);
                 }
 
                 // Обновление статуса
                 else if (_server.GetContentType()!.ToLower() == RequestType.UpdateStatus.GetDescription().ToLower())
                 {
-                    string result = UpdateData.UpdateStatus(JsonReadData.ReadStatus(_server.GetRequestBody()));
-                    _server.Send(result, _server.GetResponse()!);
+                    result = UpdateData.UpdateStatus(JsonReadData.ReadStatus(_server.GetRequestBody()));
+                    //_server.Send(result, _server.GetResponse()!);
                 }
 
                 // Удаление задачи
                 else if (_server.GetContentType()!.ToLower() == RequestType.DeleteTask.GetDescription().ToLower())
                 {
-                    string result = DeleteData.DeleteTask(JsonReadData.ReadTask(_server.GetRequestBody()));
-                    _server.Send(result, _server.GetResponse()!);
+                    result = DeleteData.DeleteTask(JsonReadData.ReadTask(_server.GetRequestBody()));
+                    //_server.Send(result, _server.GetResponse()!);
                 }
 
                 // Удаление пользователя
                 else if (_server.GetContentType()!.ToLower() == RequestType.DeleteUser.GetDescription().ToLower())
                 {
-                    string result = DeleteData.DeleteUser(JsonReadData.ReadUser(_server.GetRequestBody()));
+                    result = DeleteData.DeleteUser(JsonReadData.ReadUser(_server.GetRequestBody()));
+                    //_server.Send(result, _server.GetResponse()!);
+                }
+
+                if (result != null)
+                {
+                    result = Encryption.Encryption.EncryptString(result!, 5);
                     _server.Send(result, _server.GetResponse()!);
                 }
 

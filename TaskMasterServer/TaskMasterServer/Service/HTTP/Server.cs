@@ -49,7 +49,6 @@ namespace TaskMasterServer.Service.HTTP
         private HttpListenerResponse? _response;
         private string? _requestBody;
         private string? _contentType;
-        private Data.Data _currentResponseInRequestData = new Data.Data();
         private int _count = 1;
         private int _port = 8080;
         private bool _prefixServer = true;
@@ -110,7 +109,7 @@ namespace TaskMasterServer.Service.HTTP
         }
         public string GetRequestBody()
         {
-            return _requestBody!;
+            return Encryption.Encryption.DecryptString(_requestBody!, 5);
         }
         private void SetRequestBody(HttpListenerRequest request)
         {
