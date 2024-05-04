@@ -1,7 +1,7 @@
 ﻿using System.Text.Encodings.Web;
 using System.Text.Json;
 using TaskMasterServer.Service.Business.CRUD;
-using TaskMasterServer.Service.Encryption;
+using TaskMasterServer.Service.Encryptions;
 using TaskMasterServer.Service.HTTP;
 using TaskMasterServer.Service.JSON;
 
@@ -132,9 +132,31 @@ namespace TaskMasterServer.Service.Business
                     //_server.Send(result, _server.GetResponse()!);
                 }
 
+                // Удаление департамента
+                else if (_server.GetContentType()!.ToLower() == RequestType.DeleteDepartment.GetDescription().ToLower())
+                {
+                    result = DeleteData.DeleteDepartment(JsonReadData.ReadDepartment(_server.GetRequestBody()));
+                    //_server.Send(result, _server.GetResponse()!);
+                }
+
+                // Удаление Статуса
+                else if (_server.GetContentType()!.ToLower() == RequestType.DeleteStatus.GetDescription().ToLower())
+                {
+                    result = DeleteData.DeleteStatus(JsonReadData.ReadStatus(_server.GetRequestBody()));
+                    //_server.Send(result, _server.GetResponse()!);
+                }
+
+                // Удаление Приоритета
+                else if (_server.GetContentType()!.ToLower() == RequestType.DeletePrioritet.GetDescription().ToLower())
+                {
+                    result = DeleteData.DeletePrioritet(JsonReadData.ReadPrioritet(_server.GetRequestBody()));
+                    //_server.Send(result, _server.GetResponse()!);
+                }
+
+
                 if (result != null)
                 {
-                    result = Encryption.Encryption.EncryptString(result!, 5);
+                    result = Encryption.EncryptString(result);
                     _server.Send(result, _server.GetResponse()!);
                 }
 

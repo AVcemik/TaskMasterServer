@@ -21,7 +21,7 @@ namespace TaskMasterServer.Service.Business.CRUD
                 PriorityId = DataBd.ReadPriority()?.Where(p => p.PriorityType == updateTask.Priority).FirstOrDefault()?.PriorityId ?? 0
             };
 
-            if (taskDB.StatusId == 0) return "Неверно указан Id задачи";
+            if (taskDB.StatusId == 0) return "Неверно указан название статуса";
             if (taskDB.TaskName == null || taskDB.TaskName.Trim() == "") return "Заголовок задачи не указан";
             if (taskDB.Description == null || taskDB.Description.Trim() == "") return "Описание задачи не указанно";
             //if (taskBD.DateCreate == null) return "Неизвестная ошибка с датой создания";

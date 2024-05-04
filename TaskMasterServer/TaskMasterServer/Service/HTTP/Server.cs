@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Net;
+using TaskMasterServer.Service.Encryptions;
 
 enum RequestType
 {
@@ -109,7 +110,7 @@ namespace TaskMasterServer.Service.HTTP
         }
         public string GetRequestBody()
         {
-            return Encryption.Encryption.DecryptString(_requestBody!, 5);
+            return Encryption.DecryptString(_requestBody!);
         }
         private void SetRequestBody(HttpListenerRequest request)
         {
