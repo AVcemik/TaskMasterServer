@@ -28,7 +28,7 @@ namespace TaskMasterServer.DataBase
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseNpgsql(_connect.GetPublicConnection());
+                optionsBuilder.UseNpgsql(_connect.GetLocalConnection());
             }
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)

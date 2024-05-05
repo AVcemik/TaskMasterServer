@@ -34,6 +34,7 @@ namespace taskMasterClientTest.Service
 
             UserDatas user = new UserDatas() { Login = login, Password = password };
             string messageUser = JsonSerializer.Serialize<UserDatas>(user);
+            messageUser = Encriptions.EncryptString(messageUser);
 
             content = new StringContent(messageUser, Encoding.UTF8, RequestType.Authorization.GetDescription());
             response = client.PostAsync(IpConnection, content).Result;
@@ -44,7 +45,9 @@ namespace taskMasterClientTest.Service
 
                 using (StreamReader reader = new StreamReader(response.Content.ReadAsStream(), Encoding.Unicode))
                 {
-                    CurrentData = JsonSerializer.Deserialize<Data.Data>(reader.ReadToEnd(), jsonOptions);
+                    string stream = reader.ReadToEnd();
+                    stream = Encriptions.DecryptString(stream);
+                    CurrentData = JsonSerializer.Deserialize<Data.Data>(stream, jsonOptions);
                 }
             }
             else { Console.WriteLine("Ответ от сервера: " + response.StatusCode); }

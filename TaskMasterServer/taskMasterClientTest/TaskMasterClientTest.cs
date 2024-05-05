@@ -8,7 +8,7 @@ string postServer = "http://176.123.160.24";
 string localServer = "http://localhost";
 int portCifra = 8080;
 int portHome = 8888;
-string connect = $"{localServer}:{portCifra}";
+string connect = $"{postServer}:{portCifra}";
 
 
 
@@ -26,7 +26,7 @@ using (HttpClient client = new HttpClient())
     //user.CreateUser(client);
     //user.CreateDepartment(client);
     //user.UpdateTask(client);
-    user.DeleteTask(client);
+    //user.DeleteTask(client);
 }
 
 Console.WriteLine("Нажмите любую клаавишу для завершения....");
