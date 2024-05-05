@@ -2,6 +2,9 @@
 
 namespace TaskMasterServer.Service
 {
+    /// <summary>
+    /// Класс позволяющий читать атрибут Description у Enum
+    /// </summary>
     internal static class EnumExtensions
     {
         public static string GetDescription(this Enum value)

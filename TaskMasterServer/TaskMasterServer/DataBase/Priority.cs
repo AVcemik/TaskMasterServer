@@ -14,6 +14,10 @@ namespace TaskMasterServer.DataBase
 
         public virtual ICollection<Task> Tasks { get; set; }
 
+        /// <summary>
+        /// Конвертация данных приоритета под пользовательское приложение
+        /// </summary>
+        /// <returns>Возвращает данные приоритета</returns>
         internal PriorityData ConvertToData()
         {
             return new PriorityData(PriorityId, PriorityType);

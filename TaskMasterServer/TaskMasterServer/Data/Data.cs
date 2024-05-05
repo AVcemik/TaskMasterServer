@@ -1,5 +1,8 @@
 ﻿namespace TaskMasterServer.Data
 {
+    /// <summary>
+    /// Класс содержащий все необходимые данные для пользователя
+    /// </summary>
     internal class Data
     {
         public List<UserData> Users { get; set; } = new List<UserData>();

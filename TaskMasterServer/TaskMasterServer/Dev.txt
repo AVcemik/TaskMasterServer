@@ -21,7 +21,7 @@
 			Application/DeleteDepartment ... Ready
 			Application/DeletePrioritet .... Ready
 			Application/DeleteStatus ....... Ready
-	- CRUD .................................
+	- CRUD .................................		Testing
 		- Create ........................... Ready
 			- Task ......................... Ready
 			- User ......................... Ready
@@ -39,14 +39,14 @@
 			- Department ................... Ready
 			- Prioritet .................... Ready
 			- Status ....................... Ready
-		- Delete ...........................
-			- User ......................... Testing
-			- Task ......................... Testing
-			- Department ................... Testing
-			- Prioritet .................... Testing
-			- Status ....................... Testing
-	- Logical edit data ....................
-		- Status ........................... Testing
+		- Delete ...........................		Testing
+			- User .........................		Testing
+			- Task .........................		Testing
+			- Department ...................		Testing
+			- Prioritet ....................		Testing
+			- Status .......................		Testing
+	- Logical edit data ....................		Testing
+		- Status ...........................		Testing
 
 Дополнительно:
 	- DataBase Authorization ...............

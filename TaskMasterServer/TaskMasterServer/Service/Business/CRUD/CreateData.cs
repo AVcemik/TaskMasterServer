@@ -4,8 +4,16 @@ using Task = TaskMasterServer.DataBase.Task;
 
 namespace TaskMasterServer.Service.Business.CRUD
 {
+    /// <summary>
+    /// Добавление данных в базу данных
+    /// </summary>
     internal static class CreateData
     {
+        /// <summary>
+        /// Добавление задачи
+        /// </summary>
+        /// <param name="newTask">Экземпляр новой задачи</param>
+        /// <returns>Результат операции</returns>
         public static string CreateTask(TaskData newTask)
         {
             string result = "Неизвестная ошибка";
@@ -37,6 +45,12 @@ namespace TaskMasterServer.Service.Business.CRUD
             DataBd.UpdateTempBD();
             return result;
         }
+
+        /// <summary>
+        /// Добавляем нового пользователя
+        /// </summary>
+        /// <param name="newUser">Экземпляр нового пользователя</param>
+        /// <returns>Результат операции</returns>
         public static string CreateUser(UserData newUser)
         {
             string result = "Неизвестная ошибка";
@@ -72,6 +86,12 @@ namespace TaskMasterServer.Service.Business.CRUD
             DataBd.UpdateTempBD();
             return result;
         }
+
+        /// <summary>
+        /// Добавляем новый отдел
+        /// </summary>
+        /// <param name="newDepartment">Экземпляр нового отдела</param>
+        /// <returns>Результат операции</returns>
         public static string CreateDepartment(DepartmentData newDepartment)
         {
             string result = "Неизвестная ошибка";
@@ -91,6 +111,12 @@ namespace TaskMasterServer.Service.Business.CRUD
             DataBd.UpdateTempBD();
             return result;
         }
+
+        /// <summary>
+        /// Добавляем новый приоритет
+        /// </summary>
+        /// <param name="newPrioritet">Экземпляр нового приоритета</param>
+        /// <returns>Результат операции</returns>
         public static string CreatePrioritet(PriorityData newPrioritet)
         {
             string result = "Неизвестная ошибка";
@@ -110,6 +136,12 @@ namespace TaskMasterServer.Service.Business.CRUD
             DataBd.UpdateTempBD();
             return result;
         }
+
+        /// <summary>
+        /// Добавляем новый статус
+        /// </summary>
+        /// <param name="newStatus">Экземпляр нового статуса</param>
+        /// <returns>Результат операции</returns>
         public static string CreateStatus(StatusData newStatus)
         {
             string result = "Неизвестная ошибка";

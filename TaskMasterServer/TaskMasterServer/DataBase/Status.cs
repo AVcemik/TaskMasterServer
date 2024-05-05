@@ -14,6 +14,10 @@ namespace TaskMasterServer.DataBase
 
         public virtual ICollection<Task> Tasks { get; set; }
 
+        /// <summary>
+        /// Конвертация данных статуса под пользовательское приложение
+        /// </summary>
+        /// <returns>Возвращает даанные статуса</returns>
         internal StatusData ConvertToData()
         {
             return new StatusData(StatusId, StatusType);

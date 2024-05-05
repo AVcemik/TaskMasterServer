@@ -1,6 +1,10 @@
 ﻿using TaskBD = TaskMasterServer.DataBase.Task;
 namespace TaskMasterServer.DataBase
 {
+    /// <summary>
+    /// Хранит временные данные Базы данны и данных для клиентских приложений
+    /// Система будет глобально переделанна (Перегразка по памяти)
+    /// </summary>
     internal static  class DataBd
     {
         private static Data.Data _data = new();
@@ -13,17 +17,20 @@ namespace TaskMasterServer.DataBase
         private static List<Authorization> _authorizations = [];
         private static List<Comment> _comments = [];
 
+        internal static Data.Data ReadData() { return _data; }
+        internal static List<TaskBD> ReadTask() { return _tasks; }
+        internal static List<User> ReadUser() { return _users; }
+        internal static List<Department> ReadDepartment() { return _departments; }
+        internal static List<Attachment> ReadAttachment() { return _attachments; }
+        internal static List<Priority> ReadPriority() { return _priorities; }
+        internal static List<Status> ReadStatuses() { return _statuses; }
+        internal static List<Authorization> ReadAuthorization() { return _authorizations; }
+        internal static List<Comment> ReadComments() { return _comments; }
 
-        public static Data.Data ReadData() { return _data; }
-        public static List<TaskBD> ReadTask() { return _tasks; }
-        public static List<User> ReadUser() { return _users; }
-        public static List<Department> ReadDepartment() { return _departments; }
-        public static List<Attachment> ReadAttachment() { return _attachments; }
-        public static List<Priority> ReadPriority() { return _priorities; }
-        public static List<Status> ReadStatuses() { return _statuses; }
-        public static List<Authorization> ReadAuthorization() { return _authorizations; }
-        public static List<Comment> ReadComments() { return _comments; }
-        public static void UpdateTempBD()
+        /// <summary>
+        /// Обновление временных даных БД
+        /// </summary>
+        internal static void UpdateTempBD()
         {
             using (TaskUser_dbContext dbContext = new TaskUser_dbContext())
             {
@@ -62,7 +69,6 @@ namespace TaskMasterServer.DataBase
             {
                 _data.Priorities.Add(item.ConvertToData());
             }
-
         }
         private static void ClearTempBD()
         {
@@ -83,11 +89,16 @@ namespace TaskMasterServer.DataBase
             _data.Statuses.Clear();
             _data.Priorities.Clear();
         }
+
+        /// <summary>
+        /// Проверка статусов на Просрочку и обновления данных при необходимости
+        /// </summary>
         public static void CheckStatusTask()
         {
             string statusOverdue = "Просрочена";
             List<TaskBD> updateTaskDb = new();
 
+            // Проверка на то что статус "Просрочена" существует в БД
             if (!_statuses.Any(s => s.StatusType == statusOverdue))
             {
                 Status status = new() { StatusType = statusOverdue };
@@ -101,6 +112,7 @@ namespace TaskMasterServer.DataBase
 
             int statusOverdueId = _statuses.Where(s => s.StatusType == statusOverdue).First().StatusId;
 
+            // Проверка задач на просрочку и присвоения должного статуса
             foreach (var task in _tasks)
             {
                 if (DateTime.Now > task.Deadline)

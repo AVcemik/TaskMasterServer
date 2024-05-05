@@ -3,6 +3,9 @@ using TaskMasterServer.Data;
 
 namespace TaskMasterServer.Service.JSON
 {
+    /// <summary>
+    /// Чтение Json строк
+    /// </summary>
     internal class JsonReadData
     {
         public static Data.Data ReadData(string requestBody)

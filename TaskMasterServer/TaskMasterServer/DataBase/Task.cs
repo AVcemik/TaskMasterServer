@@ -25,6 +25,10 @@ namespace TaskMasterServer.DataBase
         public virtual Status? Status { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
 
+        /// <summary>
+        /// Конвертация данных задачи под пользовательское приложение
+        /// </summary>
+        /// <returns>Возвращает данные задачи</returns>
         internal TaskData ConvertToData()
         {
             return new TaskData(TaskId, TaskName, Description, DateCreate, Deadline, Department!.DepartmentName!, Status!.StatusType, Priority!.PriorityType);

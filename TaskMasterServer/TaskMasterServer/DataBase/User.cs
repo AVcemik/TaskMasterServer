@@ -19,6 +19,10 @@ namespace TaskMasterServer.DataBase
         public virtual Department? Department { get; set; }
         public virtual Authorization? Authorization { get; set; }
 
+        /// <summary>
+        /// Конвертация данных пользователя под пользовательское приложение
+        /// </summary>
+        /// <returns>Возвращает данные пользователя</returns>
         internal UserData ConvertToData()
         {
             return new UserData(UserId, Firstname, Lastname, Brithday, Contactphone, Login, Password, Email, Department!.DepartmentName, Isresponsible, Isadmin);

@@ -4,8 +4,16 @@ using Task = TaskMasterServer.DataBase.Task;
 
 namespace TaskMasterServer.Service.Business.CRUD
 {
+    /// <summary>
+    /// Для обновления данных в Базе Данных
+    /// </summary>
     internal static class UpdateData
     {
+        /// <summary>
+        /// Обновление задачи
+        /// </summary>
+        /// <param name="updateTask">Экземпляр задачи с обновленными данными</param>
+        /// <returns>Результат операции</returns>
         public static string UpdateTask(TaskData updateTask)
         {
             string result = "Неизвестная ошибка";
@@ -43,6 +51,12 @@ namespace TaskMasterServer.Service.Business.CRUD
             }
             return result;
         }
+
+        /// <summary>
+        /// Обновление пользовотеля
+        /// </summary>
+        /// <param name="updateUser">Экземпляр пользователя с обновленными данными</param>
+        /// <returns>Результат операции</returns>
         public static string UpdateUser(UserData updateUser)
         {
             string result = "Неизвестная ошибка";
@@ -84,6 +98,12 @@ namespace TaskMasterServer.Service.Business.CRUD
             }
             return result;
         }
+
+        /// <summary>
+        /// Обновление отдела
+        /// </summary>
+        /// <param name="updateDepartment">Экземпляр отдела с обновленными данными</param>
+        /// <returns>Результат операции</returns>
         public static string UpdateDepartment(DepartmentData updateDepartment)
         {
             string result = "Неизвестная ошибка";
@@ -108,6 +128,12 @@ namespace TaskMasterServer.Service.Business.CRUD
             }
             return result;
         }
+
+        /// <summary>
+        /// Обновление Приоритета
+        /// </summary>
+        /// <param name="updatePrioritet">Экземпляр приоритета, с обновленными данными</param>
+        /// <returns>Результат операции</returns>
         public static string UpdatePrioritet(PriorityData updatePrioritet)
         {
             string result = "Неизвестная ошибка";
@@ -132,6 +158,12 @@ namespace TaskMasterServer.Service.Business.CRUD
             }
             return result;
         }
+
+        /// <summary>
+        /// Обновление статуса
+        /// </summary>
+        /// <param name="updateStatus">Экземпляр статуса, с обновленными данными</param>
+        /// <returns>Результат операции</returns>
         public static string UpdateStatus(StatusData updateStatus)
         {
             string result = "Неизвестная ошибка";

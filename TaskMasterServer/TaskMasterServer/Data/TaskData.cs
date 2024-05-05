@@ -1,5 +1,8 @@
 ﻿namespace TaskMasterServer.Data
 {
+    /// <summary>
+    /// Данные задачи
+    /// </summary>
     internal class TaskData
     {
         public int Id { get; set; }
@@ -22,26 +25,6 @@
             Department = department;
             Status = status;
             Priority = priority;
-        }
-        public TaskData(int id, string? title, string? description, DateTime? startDate, DateTime? deadLine, string? status, string? priority)
-        {
-            Id = id;
-            Title = title;
-            Description = description;
-            StartDate = startDate;
-            DeadLine = deadLine;
-            Status = status;
-            Priority = priority;
-        }
-        public void SetTaskDataConvertTaskBD(DataBase.Task taskBd)
-        {
-            Id = taskBd.TaskId;
-            Title = taskBd.TaskName;
-            Description = taskBd.Description;
-            StartDate = taskBd.DateCreate;
-            DeadLine = taskBd.Deadline;
-            Status = taskBd.Status!.StatusType;
-            Priority = taskBd.Priority!.PriorityType;
         }
     }
 }

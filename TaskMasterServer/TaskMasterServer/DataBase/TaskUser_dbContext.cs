@@ -5,6 +5,7 @@ namespace TaskMasterServer.DataBase
 {
     public partial class TaskUser_dbContext : DbContext
     {
+        private readonly Connection _connect = new();
         public TaskUser_dbContext()
         {
         }
@@ -27,10 +28,9 @@ namespace TaskMasterServer.DataBase
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseNpgsql(Connection.StringConnection(ConnectionDB.LocalDbConnection));
+                optionsBuilder.UseNpgsql(_connect.GetPublicConnection());
             }
         }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Attachment>(entity =>

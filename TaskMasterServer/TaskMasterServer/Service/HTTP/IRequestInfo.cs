@@ -2,18 +2,8 @@
 
 namespace TaskMasterServer.Service.HTTP
 {
-    public interface IRequestInfo
+    internal interface IRequestInfo
     {
-        void GetRequestInfo(HttpListenerRequest request)
-        {
-            Console.WriteLine("----------------------------------------------------------");
-            Console.WriteLine("Request.RawUrl: " + request.RawUrl);
-            Console.WriteLine("Request Headers: " + request.Headers);
-            Console.WriteLine("Request.Url: " + request.Url);
-            Console.WriteLine("UserHostAdress: " + request.UserHostAddress);
-            Console.WriteLine("UserHostName: " + request.UserHostName);
-            Console.WriteLine("Request ContentType: " + request.ContentType);
-            Console.WriteLine("----------------------------------------------------------");
-        }
+        public void GetRequestInfo();
     }
 }

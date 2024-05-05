@@ -1,9 +1,10 @@
 ﻿using TaskMasterServer.DataBase;
-using TaskMasterServer.Service.Business;
+using TaskMasterServer.Service;
+
 
 DataBd.UpdateTempBD();
 DataBd.CheckStatusTask();
 
-InWorkServer server = new InWorkServer(true, 8080);
+InWorkServer server = new (true, 8080);
 server.Start();
 server.InWorkProcess();

@@ -4,8 +4,16 @@ using Task = TaskMasterServer.DataBase.Task;
 
 namespace TaskMasterServer.Service.Business.CRUD
 {
+    /// <summary>
+    /// Удаление данных из базы данных
+    /// </summary>
     internal static class DeleteData
     {
+        /// <summary>
+        /// Удаление задачи
+        /// </summary>
+        /// <param name="deleteTask">Экземпляр удаляемой задачи с ее Id и Name</param>
+        /// <returns>Результат операции</returns>
         public static string DeleteTask(TaskData deleteTask)
         {
             string result = "Неизвестная ошибка";
@@ -29,6 +37,12 @@ namespace TaskMasterServer.Service.Business.CRUD
 
             return result;
         }
+
+        /// <summary>
+        /// Удаление пользователя
+        /// </summary>
+        /// <param name="deleteUser">Экземпляр удаляемого пользователя с его Id и Login</param>
+        /// <returns>Результат операции</returns>
         public static string DeleteUser(UserData deleteUser)
         {
             string result = "Неизвестная ошибка";
@@ -52,6 +66,12 @@ namespace TaskMasterServer.Service.Business.CRUD
 
             return result;
         }
+
+        /// <summary>
+        /// Удаление отдела
+        /// </summary>
+        /// <param name="deleteDepartment">Экземпляр удаляемого отдела</param>
+        /// <returns>Результат операции</returns>
         public static string DeleteDepartment(DepartmentData deleteDepartment)
         {
             string result = "Неизвестная ошибка";
@@ -75,6 +95,12 @@ namespace TaskMasterServer.Service.Business.CRUD
 
             return result;
         }
+
+        /// <summary>
+        /// Удаление статуса
+        /// </summary>
+        /// <param name="deleteStatus">Экземпляр удаляемого статуса</param>
+        /// <returns>Результат операции</returns>
         public static string DeleteStatus(StatusData deleteStatus)
         {
             string result = "Неизвестная ошибка";
@@ -99,6 +125,11 @@ namespace TaskMasterServer.Service.Business.CRUD
             return result;
         }
 
+        /// <summary>
+        /// Удаление приоритета
+        /// </summary>
+        /// <param name="deletePrioritet">Экземпляр удаляемого приоритета</param>
+        /// <returns>Результат операции</returns>
         public static string DeletePrioritet(PriorityData deletePrioritet)
         {
             string result = "Неизвестная ошибка";

@@ -1,5 +1,8 @@
 ﻿namespace TaskMasterServer.Data
 {
+    /// <summary>
+    /// Данные пользователя
+    /// </summary>
     internal class UserData
     {
         public int Id { get; set; }
@@ -13,8 +16,8 @@
         public string? Department { get; set; }
         public bool? IsResponsible { get; set; } = false;
         public bool? IsAdmin { get; set; } = false;
-        public UserData() { }
 
+        public UserData() { }
         public UserData(int id, string? firstName, string? lastName, DateTime? birthDay, string? contactPhone, string? login, string? password, string? email, string? department, bool? isResponsible, bool? isAdmin)
         {
             Id = id;
@@ -28,18 +31,6 @@
             Department = department;
             IsResponsible = isResponsible;
             IsAdmin = isAdmin;
-        }
-        public void SetUserDataConvertUserBD(DataBase.User userBd)
-        {
-            Id = userBd.UserId;
-            FirstName = userBd.Firstname;
-            LastName = userBd.Lastname;
-            Birthday = userBd.Brithday;
-            ContactPhone = userBd.Contactphone;
-            Login = userBd.Login;
-            Password = userBd.Password;
-            Department = userBd.Department!.DepartmentName;
-            IsResponsible = userBd.Isresponsible;
         }
     }
 }
