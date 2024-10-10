@@ -1,0 +1,59 @@
+﻿Ошибки:
+	- Сервер не отправляет департамент в задачах
+
+Прототип:
+	- HttpListener ......................... 
+		- Query ............................
+			Application/Authorization ...... Ready
+			Application/AddUser ............ Ready
+			Application/AddTask ............ Ready
+			Application/AddDepartment ...... Ready
+			Application/AddPrioritet ....... Ready
+			Application/AddStatus .......... Ready
+			Application/ReadData ........... Ready
+			Application/UpdateUser ......... Ready
+			Application/UpdateTask ......... Ready
+			Application/UpdateDepartment ... Ready
+			Application/UpdatePrioritet .... Ready
+			Application/UpdateStatus ....... Ready
+			Application/DeleteUser ......... Ready
+			Application/DeleteTask ......... Ready
+			Application/DeleteDepartment ... Ready
+			Application/DeletePrioritet .... Ready
+			Application/DeleteStatus ....... Ready
+	- CRUD .................................		Testing
+		- Create ........................... Ready
+			- Task ......................... Ready
+			- User ......................... Ready
+			- Department ................... Ready
+			- Prioritet .................... Ready
+			- Status ....................... Ready
+		- Read .............................
+			- User ......................... ???
+			- TasksUser .................... ???
+			- User Data .................... Ready
+			- Admin Data ................... Ready
+		- Update ........................... Ready
+			- User ......................... Ready
+			- Task ......................... Ready
+			- Department ................... Ready
+			- Prioritet .................... Ready
+			- Status ....................... Ready
+		- Delete ...........................		Testing
+			- User .........................		Testing
+			- Task .........................		Testing
+			- Department ...................		Testing
+			- Prioritet ....................		Testing
+			- Status .......................		Testing
+	- Logical edit data ....................		Testing
+		- Status ...........................		Testing
+
+Дополнительно:
+	- DataBase Authorization ...............
+	- Server App In Docker Up Pack .........
+	- Business model .......................
+
+По времени:
+	- Encryption ........................... Ready
+	- Decryption ........................... Ready
+	- Token Authorization ..................
